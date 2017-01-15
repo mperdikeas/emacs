@@ -455,7 +455,7 @@ With a prefix argument, insert a newline above the current line."
 
     (use-package zenburn-theme
       :init
-      (load-theme 'zenburn)
+      (load-theme 'zenburn t) # http://stackoverflow.com/a/8547861/274677
       :ensure t)
 
     (use-package free-keys
