@@ -577,8 +577,15 @@ With a prefix argument, insert a newline above the current line."
 
 )
 
+(progn ; https://emacs.stackexchange.com/a/171/4003
+  (defun revert-buffer-no-confirm-unless-changed()
+    "Revert buffer without confirmation unless changed."
+    (interactive)
+    (revert-buffer t (not (buffer-modified-p)) t)
+    )
 
-
+  (global-set-key (quote [f5]) (quote revert-buffer-no-confirm-unless-changed))
+  )
 
 (progn ; organize my global keys and ensure they override others
   (defvar my-keys-minor-mode-map ;; http://stackoverflow.com/a/683575/274677
