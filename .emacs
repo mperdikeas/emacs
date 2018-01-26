@@ -539,7 +539,7 @@ With a prefix argument, insert a newline above the current line."
 
     (use-package column-marker ;; http://www.emacswiki.org/emacs/ColumnMarker
       :init
-      (add-hook 'java-mode-hook (lambda () (interactive) (column-marker-1 120)))      
+      (add-hook 'java-mode-hook (lambda () (interactive) (column-marker-2 120)))
       )
 
     (use-package repeat) ;; to repeat last command: "C-x z"; once pressed, additional 'z's will keep repeating it. (this appears to be on by default)
@@ -610,7 +610,8 @@ With a prefix argument, insert a newline above the current line."
       (define-key map (kbd "M-v"      ) 'View-scroll-half-page-backward) ;; --||--
       (define-key map (kbd "<f8>"     ) 'copy-to-clipboard)
       (define-key map (kbd "<f9>"     ) 'paste-from-clipboard)
-      (define-key map (kbd "C-c c"    ) 'column-marker-1)
+      (define-key map (kbd "C-c c"    ) 'column-marker-3)
+      (define-key map (kbd "C-c C-u"  ) (kbd "C-u C-u M-x c o l u m n - m a r k e r - 1 RET")) ; https://emacs.stackexchange.com/a/38385/4003
       map)
     "my-keys-minor-mode keymap.")
 
