@@ -644,3 +644,11 @@ With a prefix argument, insert a newline above the current line."
 (define-key my-keys-minor-mode-map (kbd "C-M-u") 'toggle-maximize-buffer)
 
 (delete-selection-mode 1) ; http://unix.stackexchange.com/q/26360/24044
+
+;; +--------------------------------------------+
+;; |                                            |
+;; | On 2018-08-20 I did on the T420 machine:   |
+;; | M-x package-install [RET] scss-mode [RET]  |
+;; | M-x package-install [RET] sass-mode [RET]  |
+;; |                                            |
+;; +--------------------------------------------+
