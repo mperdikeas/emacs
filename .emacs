@@ -61,7 +61,10 @@
    (quote
     ("4e753673a37c71b07e3026be75dc6af3efbac5ce335f3707b7d6a110ecb636a3" "cdbd0a803de328a4986659d799659939d13ec01da1f482d838b68038c1bb35e8" "f5eb916f6bd4e743206913e6f28051249de8ccfd070eae47b5bde31ee813d55f" "d6a00ef5e53adf9b6fe417d2b4404895f26210c52bb8716971be106550cea257" default)))
  '(inhibit-startup-screen t)
- '(org-agenda-files nil))
+ '(org-agenda-files nil)
+ '(package-selected-packages
+   (quote
+    (ess zenburn-theme web-mode use-package typescript scss-mode sass-mode openwith json-mode helm free-keys flow-minor-mode cider auto-complete anzu ace-window ace-jump-mode ac-js2))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -574,6 +577,10 @@ With a prefix argument, insert a newline above the current line."
     (use-package volatile-highlights
     :config
     (volatile-highlights-mode t))
+
+    (use-package ess
+      :ensure t
+      :init (require 'ess-site))
 
 )
 
