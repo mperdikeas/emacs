@@ -429,9 +429,6 @@ With a prefix argument, insert a newline above the current line."
     (use-package typescript
       :ensure t)
 
-    (use-package auto-complete
-      :ensure t) 
-
     (use-package ac-js2
       :ensure t) ;; NB: I also had to do this:
                  ;;        just replace line 285 of ac-js2.el with this:
