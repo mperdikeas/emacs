@@ -708,3 +708,5 @@ With a prefix argument, insert a newline above the current line."
 ;; | M-x package-install [RET] sass-mode [RET]  |
 ;; |                                            |
 ;; +--------------------------------------------+
+
+(setq create-lockfiles nil)
