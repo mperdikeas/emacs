@@ -28,6 +28,7 @@
 ;; no tabs, spaces instead!
 (setq-default indent-tabs-mode nil)
 (setq-default tabs-width 2)
+(setq indent-line-function 'insert-tab)
 
 ;; syntax highlight everywhere
 (global-font-lock-mode t)
@@ -710,3 +711,6 @@ With a prefix argument, insert a newline above the current line."
 ;; +--------------------------------------------+
 
 (setq create-lockfiles nil)
+
+(setq js-indent-level 2)
+(setq typescript-indent-level 2)
