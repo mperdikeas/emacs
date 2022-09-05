@@ -65,7 +65,7 @@
  '(org-agenda-files nil t)
  '(package-selected-packages
    (quote
-    (ess zenburn-theme web-mode use-package typescript-mode scss-mode sass-mode openwith json-mode helm free-keys flow-minor-mode cider auto-complete anzu ace-window ace-jump-mode ac-js2))))
+    (vlf vlf-setup ess zenburn-theme web-mode use-package typescript-mode scss-mode sass-mode openwith json-mode helm free-keys flow-minor-mode cider auto-complete anzu ace-window ace-jump-mode ac-js2))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -714,3 +714,12 @@ With a prefix argument, insert a newline above the current line."
 
 (setq js-indent-level 2)
 (setq typescript-indent-level 2)
+
+
+(progn
+     ;; https://emacs.stackexchange.com/a/18784/4003
+    (use-package vlf
+           :init
+           :ensure t)                
+    (require 'vlf-setup))
+        
