@@ -1,2 +1,2 @@
 # emacs
-configuration files for the One True Editor
+Configuration files for the One True Editor
