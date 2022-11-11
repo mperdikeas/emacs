@@ -722,4 +722,8 @@ With a prefix argument, insert a newline above the current line."
            :init
            :ensure t)                
     (require 'vlf-setup))
-        
+
+;; eww text-based browser
+(progn
+        (use-package eww)
+        (require 'eww))
