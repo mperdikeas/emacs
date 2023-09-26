@@ -65,7 +65,7 @@
  '(org-agenda-files nil t)
  '(package-selected-packages
    (quote
-    (vlf vlf-setup ess zenburn-theme web-mode use-package typescript-mode scss-mode sass-mode openwith json-mode helm free-keys flow-minor-mode cider auto-complete anzu ace-window ace-jump-mode ac-js2))))
+    (highlight-parentheses vlf vlf-setup ess zenburn-theme web-mode use-package typescript-mode scss-mode sass-mode openwith json-mode helm free-keys flow-minor-mode cider auto-complete anzu ace-window ace-jump-mode ac-js2))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -727,3 +727,15 @@ With a prefix argument, insert a newline above the current line."
 (progn
         (use-package eww)
         (require 'eww))
+
+(progn
+ ;; https://emacs.stackexchange.com/a/27037/4003
+(use-package highlight-parentheses
+   :ensure t
+   :pin melpa
+   :config 
+   (setq hl-paren-background-colors '("orangered4"))
+   (setq hl-paren-colors '("black")))
+   ;; https://emacs.stackexchange.com/q/5358/4003
+   (add-hook 'web-mode-hook 'highlight-parentheses-mode)
+)
