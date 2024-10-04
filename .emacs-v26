@@ -65,7 +65,7 @@
  '(org-agenda-files nil t)
  '(package-selected-packages
    (quote
-    (highlight-parentheses vlf vlf-setup ess zenburn-theme web-mode use-package typescript-mode scss-mode sass-mode openwith json-mode helm free-keys flow-minor-mode cider auto-complete anzu ace-window ace-jump-mode ac-js2))))
+    (selectric-mode highlight-parentheses vlf vlf-setup ess zenburn-theme web-mode use-package typescript-mode scss-mode sass-mode openwith json-mode helm free-keys flow-minor-mode cider auto-complete anzu ace-window ace-jump-mode ac-js2))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
