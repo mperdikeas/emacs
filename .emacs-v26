@@ -1,3 +1,6 @@
+;; https://www.reddit.com/r/emacs/comments/1cc2205/comment/l6wuj7p/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+;; (setq package-check-signature nil)
+
 ;; set this to the appropriate value in conjunction with the [~/environment/emax] script
 ;; (setq server-use-tcp t) ; listen on TCP sockets instead of on UNIX domain sockets
 (menu-bar-mode 0)
@@ -65,7 +68,7 @@
  '(org-agenda-files nil t)
  '(package-selected-packages
    (quote
-    (selectric-mode highlight-parentheses vlf vlf-setup ess zenburn-theme web-mode use-package typescript-mode scss-mode sass-mode openwith json-mode helm free-keys flow-minor-mode cider auto-complete anzu ace-window ace-jump-mode ac-js2))))
+    (helm gnu-elpa-keyring-update selectric-mode highlight-parentheses vlf vlf-setup ess zenburn-theme web-mode use-package typescript-mode scss-mode sass-mode openwith json-mode free-keys flow-minor-mode cider auto-complete anzu ace-window ace-jump-mode ac-js2))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
