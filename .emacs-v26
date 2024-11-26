@@ -68,7 +68,7 @@
  '(org-agenda-files nil t)
  '(package-selected-packages
    (quote
-    (helm gnu-elpa-keyring-update selectric-mode highlight-parentheses vlf vlf-setup ess zenburn-theme web-mode use-package typescript-mode scss-mode sass-mode openwith json-mode free-keys flow-minor-mode cider auto-complete anzu ace-window ace-jump-mode ac-js2))))
+    (gnu-elpa-keyring-update selectric-mode highlight-parentheses vlf vlf-setup ess zenburn-theme web-mode use-package typescript-mode scss-mode sass-mode openwith json-mode free-keys flow-minor-mode cider auto-complete anzu ace-window ace-jump-mode ac-js2))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -476,7 +476,7 @@ With a prefix argument, insert a newline above the current line."
       ;; ------------------ end of post --------------------------------->%--
 
       
-      (setq my-package-list '(typescript-mode ac-js2 js2-mode ace-window zenburn-theme free-keys helm web-mode clojure-mode cider ace-jump-mode openwith
+      (setq my-package-list '(typescript-mode ac-js2 js2-mode ace-window zenburn-theme free-keys web-mode clojure-mode cider ace-jump-mode openwith
                                          json-mode view repeat anzu volatile-highlights ess))
       ;; programmatically install/ensure installed
       ;; pkgs in your personal list
@@ -520,17 +520,6 @@ With a prefix argument, insert a newline above the current line."
     (use-package free-keys
       :init
       (global-set-key (kbd "C-h C-k") 'free-keys)
-      :ensure t)
-
-    (use-package helm
-      :init
-      (helm-mode 1)
-      (progn ;; http://emacs.stackexchange.com/q/2867/4003
-             ;; see also: http://tuhdo.github.io/helm-intro.html
-          (define-key helm-map (kbd "C-z") 'helm-select-action) ; list actions using C-z
-          (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
-          (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
-        )
       :ensure t)
 
     (use-package web-mode
