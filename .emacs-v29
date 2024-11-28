@@ -129,7 +129,6 @@
         (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
         (add-to-list 'auto-mode-alist '("\\.jsp\\'"  . web-mode))
         (add-to-list 'auto-mode-alist '("\\.jsx\\'"  . web-mode))
-        (add-to-list 'auto-mode-alist '("\\.tsx\\'"  . web-mode))
         (defun my-web-mode-hook ()
           "Hooks for Web mode."
           (setq web-mode-markup-indent-offset 2)
@@ -291,7 +290,7 @@
  '(inhibit-startup-screen t)
  '(org-agenda-files nil t)
  '(package-selected-packages
-   '(gnu-elpa-keyring-update selectric-mode highlight-parentheses vlf vlf-setup ess zenburn-theme web-mode use-package typescript-mode scss-mode sass-mode openwith json-mode free-keys flow-minor-mode cider auto-complete anzu ace-window ace-jump-mode ac-js2)))
+   '(gnu-elpa-keyring-update selectric-mode highlight-parentheses vlf vlf-setup ess zenburn-theme web-mode use-package scss-mode sass-mode openwith json-mode free-keys flow-minor-mode cider auto-complete anzu ace-window ace-jump-mode ac-js2)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -727,3 +726,25 @@ With a prefix argument, insert a newline above the current line."
    ;; https://emacs.stackexchange.com/q/5358/4003
    (add-hook 'web-mode-hook 'highlight-parentheses-mode)
 )
+
+
+(
+ ;; configure TypeScript and TSX - technically different languages for [tree-sitter] and
+ ;; associate the respective modes with *.tsx and *.ts extensions
+ progn ;; https://medium.com/really-learn-programming/setting-up-tree-sitter-in-emacs-29-x-a38a9d3a9f2b
+       ;; with some editing influenced by this
+       ;; https://www.reddit.com/r/emacs/comments/15tz3vx/comment/jws0yi5/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+ (setq treesit-language-source-alist      
+       '((typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+         (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")))
+ (dolist (lang treesit-language-source-alist)
+  (unless (treesit-language-available-p (car lang))
+    (treesit-install-language-grammar (car lang))))
+
+;; (add-to-list 'major-mode-remap-alist '(typescript-mode . typescript-ts-mode))
+ 
+        (add-to-list 'auto-mode-alist '("\\.tsx\\'"  . tsx-ts-mode))
+        (add-to-list 'auto-mode-alist '("\\.ts\\'"  . typescript-ts-mode))
+
+
+ )
