@@ -76,16 +76,13 @@
       ;; ------------------ end of post --------------------------------->%--
 
       
-      (setq my-package-list '(typescript-mode js2-mode ace-window zenburn-theme free-keys web-mode clojure-mode cider json-mode view repeat anzu ess))
+      (setq my-package-list '(js2-mode ace-window zenburn-theme free-keys web-mode clojure-mode cider json-mode view repeat anzu ess))
       ;; programmatically install/ensure installed
       ;; pkgs in your personal list
       (dolist (package my-package-list)
         (unless (package-installed-p package)
           (package-install package)))
       )
-
-    (use-package typescript-mode
-      :ensure t)
 
     (use-package ac-js2
       :ensure t) ;; NB: I also had to do this:
