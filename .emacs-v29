@@ -738,8 +738,6 @@ With a prefix argument, insert a newline above the current line."
   (unless (treesit-language-available-p (car lang))
     (treesit-install-language-grammar (car lang))))
 
-;; (add-to-list 'major-mode-remap-alist '(typescript-mode . typescript-ts-mode))
- 
         (add-to-list 'auto-mode-alist '("\\.tsx\\'"  . tsx-ts-mode))
         (add-to-list 'auto-mode-alist '("\\.ts\\'"  . typescript-ts-mode))
 
