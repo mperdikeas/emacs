@@ -748,10 +748,12 @@ With a prefix argument, insert a newline above the current line."
  )
 ;; way B (cleaner - with more languages)
 (progn
-  ;; NOTE: The (optional) Tailwind LSP Server step found in the linked article has not been added below
-  ;;       as it also required installing and bootstrapping straight
-  ;;        (cf.: https://github.com/radian-software/straight.el?tab=readme-ov-file#bootstrapping-straightel)
-  ;;       and I had a problem with that.
+  ;; NOTE 1: The (optional) Tailwind LSP Server step found in the linked article has not been added below
+  ;;         as it also required installing and bootstrapping straight
+  ;;         (cf.: https://github.com/radian-software/straight.el?tab=readme-ov-file#bootstrapping-straightel)
+  ;;         and I had a problem with that.
+  ;;
+  ;; NOTE 2: similarly, I did not setup the Emacs LSP Booster
   ;;
   ;; https://www.ovistoica.com/blog/2024-7-05-modern-emacs-typescript-web-tsx-config
   ;; +---- above article saved in various formats in: [ .emacs-v29.KB/Modern-Emacs-Typescript-Web-React-wt-lsp-mode-treesitter-tailwind-TSX-etc ]
