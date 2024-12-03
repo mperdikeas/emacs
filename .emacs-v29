@@ -5,6 +5,8 @@
 ;; (setq package-check-signature nil)
 
 
+(setenv "LSP_USE_PLISTS" "true")        ;; <a>sse-1733245426</a>
+
 
   ;; see: http://stackoverflow.com/a/21065066/274677
   ;;      http://stackoverflow.com/a/21342883/274677
@@ -755,6 +757,10 @@ With a prefix argument, insert a newline above the current line."
   ;;
   ;; NOTE 2: similarly, I did not setup the Emacs LSP Booster
   ;;
+  ;; NOTE 3: similarly, I briefly installed [combobulate] (which requires cloning its repo somewhere locally and
+  ;;         referring to it from your [.emacs] file, but in the end I decided not to use, being overwhelmed by its
+  ;;         chords and not convinced of its utility.
+  ;;
   ;; https://www.ovistoica.com/blog/2024-7-05-modern-emacs-typescript-web-tsx-config
   ;; +---- above article saved in various formats in: [ .emacs-v29.KB/Modern-Emacs-Typescript-Web-React-wt-lsp-mode-treesitter-tailwind-TSX-etc ]
   ;;
@@ -765,10 +771,10 @@ With a prefix argument, insert a newline above the current line."
   ;;    The answer was given in a reply to this issue (on the same page) which led me here:
   ;;        https://emacs-lsp.github.io/lsp-mode/page/performance/#use-plists-for-deserialization
   ;;        +---- above article saved in [ .emacs-v29.KB/LSP-Mode-support-for-Emacs.pdf ]
-  ;;    In the end, in my experience, explicitly exporting LSP_USE_PLISTS to true on the shell wasn't necessary
-  ;;    as I was already taking care of this variable in the existing setup (cf.: sse-1733235467). What I however think was
-  ;;    necessary was deleting the [lsp-mode] and [lsp-ui] packages manually (with "package-delete") and then re-installing
-  ;;    them (no idea why that was necessary).
+  ;;    In my experience, I had to explicitly set LSP_USE_PLISTS to true (cf.: sse-1733245426)
+  ;;    even though this variable (note: different case) seems to already been taken of in the
+  ;;    existing setup (cf.: sse-1733235467). It was also necessary to delete the [lsp-mode] and [lsp-ui] packages
+  ;;    manually (with "package-delete") and then re-install them (no idea why that makes any difference).
   
   (use-package treesit
       :mode (("\\.tsx\\'" . tsx-ts-mode)
@@ -836,10 +842,9 @@ With a prefix argument, insert a newline above the current line."
                  (sh-base-mode . bash-ts-mode)))
         (add-to-list 'major-mode-remap-alist mapping))
       :config
-      (os/setup-install-grammars))
- 
+      (os/setup-install-grammars)
+     )
 
-    ;;;; Code Completion
     ;;;; Code Completion
     (use-package corfu
       :ensure t
@@ -943,7 +948,7 @@ With a prefix argument, insert a newline above the current line."
       (lsp-semantic-tokens-enable nil)      ; Related to highlighting, and we defer to treesitter
 
       :init
-      (setq lsp-use-plists t)) ;; <a>sse-1733235467</a>
+      (setq lsp-use-plists t)) ;; <a>sse-1733235467</a> cf.: sse-1733245426
 
     (use-package lsp-completion
       :no-require
@@ -973,5 +978,7 @@ With a prefix argument, insert a newline above the current line."
     ;; per https://github.com/emacs-lsp/lsp-mode#performance
     (setq read-process-output-max (* 10 1024 1024)) ;; 10mb
     (setq gc-cons-threshold 200000000)
+
+
     )
 )
