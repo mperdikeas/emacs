@@ -289,7 +289,7 @@
  '(inhibit-startup-screen t)
  '(org-agenda-files nil t)
  '(package-selected-packages
-   '(lsp-ui lsp-mode flycheck corfu gnu-elpa-keyring-update selectric-mode highlight-parentheses vlf vlf-setup ess zenburn-theme web-mode use-package scss-mode sass-mode openwith json-mode free-keys flow-minor-mode cider auto-complete anzu ace-window ace-jump-mode ac-js2)))
+   '(apheleia lsp-ui lsp-mode flycheck corfu gnu-elpa-keyring-update selectric-mode highlight-parentheses vlf vlf-setup ess zenburn-theme web-mode use-package scss-mode sass-mode openwith json-mode free-keys flow-minor-mode cider auto-complete anzu ace-window ace-jump-mode ac-js2)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -979,6 +979,43 @@ With a prefix argument, insert a newline above the current line."
     (setq read-process-output-max (* 10 1024 1024)) ;; 10mb
     (setq gc-cons-threshold 200000000)
 
+        (progn ;; configure prettier-js
+               ;; this is actually a requirement for using Apheleia
+               ;; I followed instructions from: https://github.com/prettier/prettier-emacs
+               ;;
+               ;; Notes:
+               ;; 1. I had to install the package manually using:
+               ;;    package-install RET prettier-js RET
+               ;; 2. I had to globally install [nmp] package [prettier] on my system
+               ;;    with:
+               ;;        npm install -g prettier
+               ;; 3. If you are using [nvm] (like I do) the above command only installs
+               ;;    it for the [npm] version in the current shell. Repeat for any other
+               ;;    [npm] version you might be using from any shell from which you launch Emacs
+         (require 'prettier-js)
+          (add-hook 'js2-mode-hook 'prettier-js-mode)
+          (add-hook 'web-mode-hook 'prettier-js-mode)
+          (setq prettier-js-args '(
+                               "--trailing-comma" "all"
+                               "--bracket-spacing" "false"
+                               ))
+          )
 
+        ;; Formatting buffers with prettier - Apheleia
+        ;;; APHELEIA
+        ;; auto-format different source code files extremely intelligently
+        ;; https://github.com/radian-software/apheleia
+        (use-package apheleia
+          :ensure apheleia
+          :diminish ""
+          :defines
+          apheleia-formatters
+          apheleia-mode-alist
+          :functions
+          apheleia-global-mode
+          :config
+          (setf (alist-get 'prettier-json apheleia-formatters)
+                '("prettier" "--stdin-filepath" filepath))
+          (apheleia-global-mode +1))
     )
 )
