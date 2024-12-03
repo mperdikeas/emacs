@@ -797,7 +797,7 @@ With a prefix argument, insert a newline above the current line."
                    (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
                    (toml "https://github.com/tree-sitter/tree-sitter-toml")
                    (tsx . ("https://github.com/tree-sitter/tree-sitter-typescript" "v0.20.3" "tsx/src"))
-                   (typescript . ("https://github.com/tree-sitter/tree-sitter-typescript" "v0.20.3" "typescript/src"))
+                   (typescript . ("https://github.com/tree-sitter/tree-sitter-typescript" "v0.23.2" "typescript/src"))
                    (yaml . ("https://github.com/ikatyang/tree-sitter-yaml" "v0.5.0"))
                    (prisma "https://github.com/victorhqc/tree-sitter-prisma")))
           (add-to-list 'treesit-language-source-alist grammar)
