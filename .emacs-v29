@@ -751,7 +751,18 @@ With a prefix argument, insert a newline above the current line."
   ;; NOTE: not all steps found in the linked article have been added below
   ;; https://www.ovistoica.com/blog/2024-7-05-modern-emacs-typescript-web-tsx-config
   ;; +---- above article saved in various formats in: [ .emacs-v29.KB/Modern-Emacs-Typescript-Web-React-wt-lsp-mode-treesitter-tailwind-TSX-etc ]
-
+  ;;
+  ;;    I initially (and for a couple of hours) had a problem with this setup when visiting a *.tsx / *.ts (and perhaps
+  ;;    other languages too, buffer). Emacs was giving me a trace that was very similar (if not identical) to the one
+  ;;    found here:
+  ;;        https://github.com/emacs-lsp/lsp-mode/issues/4059
+  ;;    The answer was given in a reply to this issue (on the same page) which led me here:
+  ;;        https://emacs-lsp.github.io/lsp-mode/page/performance/#use-plists-for-deserialization
+  ;;        +---- above article saved in [ .emacs-v29.KB/LSP-Mode-support-for-Emacs.pdf ]
+  ;;    In the end, in my experience, explicitly exporting LSP_USE_PLISTS to true on the shell wasn't necessary
+  ;;    as I was already taking care of this variable in the existing setup (cf.: sse-1733235467). What I however think was
+  ;;    necessary was deleting the [lsp-mode] and [lsp-ui] packages manually (with "package-delete") and then re-installing
+  ;;    them (no idea why that was necessary).
   
   (use-package treesit
       :mode (("\\.tsx\\'" . tsx-ts-mode)
@@ -926,7 +937,7 @@ With a prefix argument, insert a newline above the current line."
       (lsp-semantic-tokens-enable nil)      ; Related to highlighting, and we defer to treesitter
 
       :init
-      (setq lsp-use-plists t))
+      (setq lsp-use-plists t)) ;; <a>sse-1733235467</a>
 
     (use-package lsp-completion
       :no-require
