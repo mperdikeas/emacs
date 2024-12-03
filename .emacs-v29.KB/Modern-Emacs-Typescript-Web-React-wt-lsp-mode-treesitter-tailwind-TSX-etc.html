@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<!-- saved from url=(0079)https://www.ovistoica.com/blog/2024-7-05-modern-emacs-typescript-web-tsx-config -->
+<html class="h-full antialiased js-focus-visible" lang="en" data-js-focus-visible="" style="--header-position: sticky; --content-offset: 0px; --header-height: 3919px; --header-mb: -3855px; --header-top: 0px; --avatar-top: 0px;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width"><link rel="preload" as="image" imagesrcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar.f8e0f4a0.jpg&amp;w=16&amp;q=75 16w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar.f8e0f4a0.jpg&amp;w=32&amp;q=75 32w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar.f8e0f4a0.jpg&amp;w=48&amp;q=75 48w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar.f8e0f4a0.jpg&amp;w=64&amp;q=75 64w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar.f8e0f4a0.jpg&amp;w=96&amp;q=75 96w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar.f8e0f4a0.jpg&amp;w=128&amp;q=75 128w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar.f8e0f4a0.jpg&amp;w=256&amp;q=75 256w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar.f8e0f4a0.jpg&amp;w=384&amp;q=75 384w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar.f8e0f4a0.jpg&amp;w=640&amp;q=75 640w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar.f8e0f4a0.jpg&amp;w=750&amp;q=75 750w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar.f8e0f4a0.jpg&amp;w=828&amp;q=75 828w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar.f8e0f4a0.jpg&amp;w=1080&amp;q=75 1080w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar.f8e0f4a0.jpg&amp;w=1200&amp;q=75 1200w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar.f8e0f4a0.jpg&amp;w=1920&amp;q=75 1920w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar.f8e0f4a0.jpg&amp;w=2048&amp;q=75 2048w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar.f8e0f4a0.jpg&amp;w=3840&amp;q=75 3840w" imagesizes="2.25rem"><title>Modern Emacs Typescript Web (React) Config with lsp-mode, treesitter, tailwind, TSX &amp; more - Ovi Stoica</title><meta name="description" content="Modern web development config for emacs"><meta name="next-head-count" content="5"><script>
+  let darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+
+  updateMode()
+  darkModeMediaQuery.addEventListener('change', updateModeWithoutTransitions)
+  window.addEventListener('storage', updateModeWithoutTransitions)
+
+  function updateMode() {
+    let isSystemDarkMode = darkModeMediaQuery.matches
+    let isDarkMode = window.localStorage.isDarkMode === 'true' || (!('isDarkMode' in window.localStorage) && isSystemDarkMode)
+
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+
+    if (isDarkMode === isSystemDarkMode) {
+      delete window.localStorage.isDarkMode
+    }
+  }
+
+  function disableTransitionsTemporarily() {
+    document.documentElement.classList.add('[&_*]:!transition-none')
+    window.setTimeout(() => {
+      document.documentElement.classList.remove('[&_*]:!transition-none')
+    }, 0)
+  }
+
+  function updateModeWithoutTransitions() {
+    disableTransitionsTemporarily()
+    updateMode()
+  }
+</script><link rel="alternate" type="application/rss+xml" href="https://ovistoica.com/rss/feed.xml"><link rel="alternate" type="application/feed+json" href="https://ovistoica.com/rss/feed.json"><link rel="preload" href="./Modern-Emacs-Typescript-Web-React-wt-lsp-mode-treesitter-tailwind-TSX-etc_files/30e3a64ac718beb5.css" as="style"><link rel="stylesheet" href="./Modern-Emacs-Typescript-Web-React-wt-lsp-mode-treesitter-tailwind-TSX-etc_files/30e3a64ac718beb5.css" data-n-g=""><noscript data-n-css=""></noscript><script defer="" nomodule="" src="./Modern-Emacs-Typescript-Web-React-wt-lsp-mode-treesitter-tailwind-TSX-etc_files/polyfills-c67a75d1b6f99dc8.js"></script><script src="./Modern-Emacs-Typescript-Web-React-wt-lsp-mode-treesitter-tailwind-TSX-etc_files/webpack-59c5c889f52620d6.js" defer=""></script><script src="./Modern-Emacs-Typescript-Web-React-wt-lsp-mode-treesitter-tailwind-TSX-etc_files/framework-3b5a00d5d7e8d93b.js" defer=""></script><script src="./Modern-Emacs-Typescript-Web-React-wt-lsp-mode-treesitter-tailwind-TSX-etc_files/main-1f2538228a1f74e7.js" defer=""></script><script src="./Modern-Emacs-Typescript-Web-React-wt-lsp-mode-treesitter-tailwind-TSX-etc_files/_app-600b438aad9c431d.js" defer=""></script><script src="./Modern-Emacs-Typescript-Web-React-wt-lsp-mode-treesitter-tailwind-TSX-etc_files/2024-7-05-modern-emacs-typescript-web-tsx-config-f2a2bb8e4b49854e.js" defer=""></script><script src="./Modern-Emacs-Typescript-Web-React-wt-lsp-mode-treesitter-tailwind-TSX-etc_files/_buildManifest.js" defer=""></script><script src="./Modern-Emacs-Typescript-Web-React-wt-lsp-mode-treesitter-tailwind-TSX-etc_files/_ssgManifest.js" defer=""></script><link as="script" rel="prefetch" href="./Modern-Emacs-Typescript-Web-React-wt-lsp-mode-treesitter-tailwind-TSX-etc_files/index-b8319ef4282af574.js"><link as="script" rel="prefetch" href="./Modern-Emacs-Typescript-Web-React-wt-lsp-mode-treesitter-tailwind-TSX-etc_files/about-936e3de6ebf35d25.js"><link as="script" rel="prefetch" href="./Modern-Emacs-Typescript-Web-React-wt-lsp-mode-treesitter-tailwind-TSX-etc_files/blog-d21d1bf781afe263.js"><link as="script" rel="prefetch" href="./Modern-Emacs-Typescript-Web-React-wt-lsp-mode-treesitter-tailwind-TSX-etc_files/tags-a74862d83d5c266a.js"><link as="script" rel="prefetch" href="./Modern-Emacs-Typescript-Web-React-wt-lsp-mode-treesitter-tailwind-TSX-etc_files/videos-eb1b2dd67d6eca61.js"><link as="script" rel="prefetch" href="./Modern-Emacs-Typescript-Web-React-wt-lsp-mode-treesitter-tailwind-TSX-etc_files/projects-cb3ae866df1d329e.js"><link as="script" rel="prefetch" href="./Modern-Emacs-Typescript-Web-React-wt-lsp-mode-treesitter-tailwind-TSX-etc_files/uses-06ee448b83b2b340.js"></head><body class="flex h-full flex-col bg-zinc-50 dark:bg-black" style="cursor: auto;"><div id="__next"><div class="fixed inset-0 flex justify-center sm:px-8"><div class="flex w-full max-w-7xl lg:px-8"><div class="w-full bg-white ring-1 ring-zinc-100 dark:bg-zinc-900 dark:ring-zinc-300/20"></div></div></div><div class="relative"><header class="pointer-events-none relative z-50 flex flex-col" style="height:var(--header-height);margin-bottom:var(--header-mb)"><div class="top-0 z-10 h-16 pt-6" style="position:var(--header-position)"><div class="sm:px-8 top-[var(--header-top,theme(spacing.6))] w-full" style="position:var(--header-inner-position)"><div class="mx-auto max-w-7xl lg:px-8"><div class="relative px-4 sm:px-8 lg:px-12"><div class="mx-auto max-w-2xl lg:max-w-5xl"><div class="relative flex gap-4"><div class="flex flex-1"><div class="h-10 w-10 rounded-full bg-white/90 p-0.5 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:ring-white/10"><a aria-label="Home" class="pointer-events-auto" href="https://www.ovistoica.com/"><img alt="" sizes="2.25rem" srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar.f8e0f4a0.jpg&amp;w=16&amp;q=75 16w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar.f8e0f4a0.jpg&amp;w=32&amp;q=75 32w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar.f8e0f4a0.jpg&amp;w=48&amp;q=75 48w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar.f8e0f4a0.jpg&amp;w=64&amp;q=75 64w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar.f8e0f4a0.jpg&amp;w=96&amp;q=75 96w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar.f8e0f4a0.jpg&amp;w=128&amp;q=75 128w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar.f8e0f4a0.jpg&amp;w=256&amp;q=75 256w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar.f8e0f4a0.jpg&amp;w=384&amp;q=75 384w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar.f8e0f4a0.jpg&amp;w=640&amp;q=75 640w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar.f8e0f4a0.jpg&amp;w=750&amp;q=75 750w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar.f8e0f4a0.jpg&amp;w=828&amp;q=75 828w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar.f8e0f4a0.jpg&amp;w=1080&amp;q=75 1080w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar.f8e0f4a0.jpg&amp;w=1200&amp;q=75 1200w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar.f8e0f4a0.jpg&amp;w=1920&amp;q=75 1920w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar.f8e0f4a0.jpg&amp;w=2048&amp;q=75 2048w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar.f8e0f4a0.jpg&amp;w=3840&amp;q=75 3840w" src="./Modern-Emacs-Typescript-Web-React-wt-lsp-mode-treesitter-tailwind-TSX-etc_files/avatar.jpg" width="379" height="409" decoding="async" data-nimg="1" class="rounded-full bg-zinc-100 object-cover dark:bg-zinc-800 h-9 w-9" style="color:transparent"></a></div></div><div class="flex flex-1 justify-end md:justify-center"><div class="pointer-events-auto md:hidden" data-headlessui-state=""><button class="group flex items-center rounded-full bg-white/90 px-4 py-2 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10 dark:hover:ring-white/20" type="button" aria-expanded="false" data-headlessui-state="" id="headlessui-popover-button-:Rb9dm:">Menu<svg viewBox="0 0 8 6" aria-hidden="true" class="ml-3 h-auto w-2 stroke-zinc-500 group-hover:stroke-zinc-700 dark:group-hover:stroke-zinc-400"><path d="M1.75 1.75 4 4.25l2.25-2.5" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></button></div><nav class="pointer-events-auto hidden md:block"><ul class="flex rounded-full bg-white/90 px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10"><li><a class="relative block px-3 py-2 transition hover:text-teal-500 dark:hover:text-teal-400" href="https://www.ovistoica.com/about">About</a></li><li><a class="relative block px-3 py-2 transition hover:text-teal-500 dark:hover:text-teal-400" href="https://www.ovistoica.com/blog">Blog</a></li><li><a class="relative block px-3 py-2 transition hover:text-teal-500 dark:hover:text-teal-400" href="https://www.ovistoica.com/tags">Tags</a></li><li><a class="relative block px-3 py-2 transition hover:text-teal-500 dark:hover:text-teal-400" href="https://www.ovistoica.com/videos">Videos</a></li><li><a class="relative block px-3 py-2 transition hover:text-teal-500 dark:hover:text-teal-400" href="https://www.ovistoica.com/projects">Projects</a></li><li><a class="relative block px-3 py-2 transition hover:text-teal-500 dark:hover:text-teal-400" href="https://www.ovistoica.com/uses">Uses</a></li></ul></nav></div><div class="flex justify-end md:flex-1"><div class="pointer-events-auto"><button type="button" aria-label="Toggle dark mode" class="group rounded-full bg-white/90 px-3 py-2 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur transition dark:bg-zinc-800/90 dark:ring-white/10 dark:hover:ring-white/20"><svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="h-6 w-6 fill-zinc-100 stroke-zinc-500 transition group-hover:fill-zinc-200 group-hover:stroke-zinc-700 dark:hidden [@media(prefers-color-scheme:dark)]:fill-teal-50 [@media(prefers-color-scheme:dark)]:stroke-teal-500 [@media(prefers-color-scheme:dark)]:group-hover:fill-teal-50 [@media(prefers-color-scheme:dark)]:group-hover:stroke-teal-600"><path d="M8 12.25A4.25 4.25 0 0 1 12.25 8v0a4.25 4.25 0 0 1 4.25 4.25v0a4.25 4.25 0 0 1-4.25 4.25v0A4.25 4.25 0 0 1 8 12.25v0Z"></path><path d="M12.25 3v1.5M21.5 12.25H20M18.791 18.791l-1.06-1.06M18.791 5.709l-1.06 1.06M12.25 20v1.5M4.5 12.25H3M6.77 6.77 5.709 5.709M6.77 17.73l-1.061 1.061" fill="none"></path></svg><svg viewBox="0 0 24 24" aria-hidden="true" class="hidden h-6 w-6 fill-zinc-700 stroke-zinc-500 transition dark:block [@media(prefers-color-scheme:dark)]:group-hover:stroke-zinc-400 [@media_not_(prefers-color-scheme:dark)]:fill-teal-400/10 [@media_not_(prefers-color-scheme:dark)]:stroke-teal-500"><path d="M17.25 16.22a6.937 6.937 0 0 1-9.47-9.47 7.451 7.451 0 1 0 9.47 9.47ZM12.75 7C17 7 17 2.75 17 2.75S17 7 21.25 7C17 7 17 11.25 17 11.25S17 7 12.75 7Z" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></button></div></div></div></div></div></div></div></div></header><main><div class="sm:px-8 mt-16 lg:mt-32"><div class="mx-auto max-w-7xl lg:px-8"><div class="relative px-4 sm:px-8 lg:px-12"><div class="mx-auto max-w-2xl lg:max-w-5xl"><div class="xl:relative"><div class="mx-auto max-w-2xl"><article><header class="flex flex-col"><h1 class="mt-6 text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">Modern Emacs Typescript Web (React) Config with lsp-mode, treesitter, tailwind, TSX &amp; more</h1><time datetime="2024-07-05" class="order-first flex items-center text-base text-zinc-400 dark:text-zinc-500"><span class="h-4 w-0.5 rounded-full bg-zinc-200 dark:bg-zinc-500"></span><span class="ml-3">July 5, 2024</span></time></header><div class="mt-8 md:prose-lg xl:prose-xl prose  dark:prose-invert"><h1>Table of Contents</h1>
+<ol>
+<li><a href="https://www.ovistoica.com/blog/2024-7-05-modern-emacs-typescript-web-tsx-config#orgb6fd011">Introduction</a></li>
+<li><a href="https://www.ovistoica.com/blog/2024-7-05-modern-emacs-typescript-web-tsx-config#orgf6d33f7">Part 1: Treesitter for Typescript &amp; TSX</a></li>
+<li><a href="https://www.ovistoica.com/blog/2024-7-05-modern-emacs-typescript-web-tsx-config#orgc542f94">LSP Support</a>
+<ol>
+<li><a href="https://www.ovistoica.com/blog/2024-7-05-modern-emacs-typescript-web-tsx-config#org95be3b8">Completion setup</a></li>
+<li><a href="https://www.ovistoica.com/blog/2024-7-05-modern-emacs-typescript-web-tsx-config#org014ff07">Linter setup</a></li>
+<li><a href="https://www.ovistoica.com/blog/2024-7-05-modern-emacs-typescript-web-tsx-config#org0c47228">LSP Setup</a></li>
+<li><a href="https://www.ovistoica.com/blog/2024-7-05-modern-emacs-typescript-web-tsx-config#org2b45109">Eslint</a></li>
+<li><a href="https://www.ovistoica.com/blog/2024-7-05-modern-emacs-typescript-web-tsx-config#org843e1fd">(Optional) Tailwind LSP Server</a></li>
+</ol>
+</li>
+<li><a href="https://www.ovistoica.com/blog/2024-7-05-modern-emacs-typescript-web-tsx-config#org620d7ea">LSP Performance</a>
+<ol>
+<li><a href="https://www.ovistoica.com/blog/2024-7-05-modern-emacs-typescript-web-tsx-config#orgc88562e">Emacs LSP Booster</a></li>
+</ol>
+</li>
+<li><a href="https://www.ovistoica.com/blog/2024-7-05-modern-emacs-typescript-web-tsx-config#orgd4dc6d9">Structural editing</a></li>
+<li><a href="https://www.ovistoica.com/blog/2024-7-05-modern-emacs-typescript-web-tsx-config#orgcc099c1">Formatting buffers with Prettier</a></li>
+<li><a href="https://www.ovistoica.com/blog/2024-7-05-modern-emacs-typescript-web-tsx-config#other-resources">Other resources</a></li>
+<li><a href="https://www.ovistoica.com/blog/2024-7-05-modern-emacs-typescript-web-tsx-config#conclusion">Conclusion</a></li>
+</ol>
+<a id="orgb6fd011"></a>
+<h2>Introduction</h2>
+<p>I've worked within the JS ecosystem for the past 8 years using editors like <a href="https://www.jetbrains.com/webstorm/">Webstorm</a> and <a href="https://code.visualstudio.com/">VSCode</a>, I started using Emacs around 6 months ago and I quickly found that
+some of the pre-made configurations like Doom, don't come setup to
+fully support modern web development like the other ones, so I started a journey to make my own configuration that would satisfy all the needs of modern web dev.</p>
+<p>Here are some requirements:</p>
+<ul>
+<li>Multiple LSP server support (<code>typescript</code>, <code>eslint</code>, <code>tailwind</code> -
+optional) that work well together</li>
+<li>JSX/TSX support with full features in an efficient way (<a href="https://tree-sitter.github.io/tree-sitter/">treesitter</a>)</li>
+<li>JSX structural editing (<a href="https://github.com/mickeynp/combobulate">combobulate</a>)</li>
+<li>Prettier auto-formatting (<a href="https://github.com/radian-software/apheleia">apheleia</a>)</li>
+</ul>
+<p>We will setup all of these parts so the end result looks like this:</p>
+<img src="./Modern-Emacs-Typescript-Web-React-wt-lsp-mode-treesitter-tailwind-TSX-etc_files/emacs-tsx-demo.gif">
+<a id="orgf6d33f7"></a>
+<h2>Part 1: Treesitter for Typescript &amp; TSX</h2>
+<p>People in the Emacs community have been combining libraries like <a href="https://web-mode.org/">Web
+Mode</a> and <a href="https://github.com/ananthakumaran/tide">Tide</a> to achieve good TSX support but this setup doesn't
+pair nice with LSP servers.</p>
+<p>You can setup <a href="https://eslint.org/">eslint</a> through <a href="https://www.flycheck.org/en/latest/">flycheck</a> or <a href="https://elpa.gnu.org/packages/flymake.html">flymake</a> but this removes the
+possibility to execute code actions:</p>
+<img src="./Modern-Emacs-Typescript-Web-React-wt-lsp-mode-treesitter-tailwind-TSX-etc_files/eslint-code-actions-demo.gif">
+<p>Nowadays we can add full TSX support with Treesitter for the best performance in parsing the file and support for structural editing directly on the syntax tree (think <code>delete-entire-jsx-node</code>, <code>wrap-jsx-node</code> etc.)</p>
+<pre class="language-elisp"><code class="language-elisp"><span class="token punctuation">(</span><span class="token keyword">use-package</span> treesit
+      <span class="token lisp-property property">:mode</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token string">"\\.tsx\\'"</span> <span class="token punctuation">.</span> tsx-ts-mode<span class="token punctuation">)</span>
+             <span class="token punctuation">(</span><span class="token string">"\\.js\\'"</span>  <span class="token punctuation">.</span> typescript-ts-mode<span class="token punctuation">)</span>
+             <span class="token punctuation">(</span><span class="token string">"\\.mjs\\'"</span> <span class="token punctuation">.</span> typescript-ts-mode<span class="token punctuation">)</span>
+             <span class="token punctuation">(</span><span class="token string">"\\.mts\\'"</span> <span class="token punctuation">.</span> typescript-ts-mode<span class="token punctuation">)</span>
+             <span class="token punctuation">(</span><span class="token string">"\\.cjs\\'"</span> <span class="token punctuation">.</span> typescript-ts-mode<span class="token punctuation">)</span>
+             <span class="token punctuation">(</span><span class="token string">"\\.ts\\'"</span>  <span class="token punctuation">.</span> typescript-ts-mode<span class="token punctuation">)</span>
+             <span class="token punctuation">(</span><span class="token string">"\\.jsx\\'"</span> <span class="token punctuation">.</span> tsx-ts-mode<span class="token punctuation">)</span>
+             <span class="token punctuation">(</span><span class="token string">"\\.json\\'"</span> <span class="token punctuation">.</span>  json-ts-mode<span class="token punctuation">)</span>
+             <span class="token punctuation">(</span><span class="token string">"\\.Dockerfile\\'"</span> <span class="token punctuation">.</span> dockerfile-ts-mode<span class="token punctuation">)</span>
+             <span class="token punctuation">(</span><span class="token string">"\\.prisma\\'"</span> <span class="token punctuation">.</span> prisma-ts-mode<span class="token punctuation">)</span>
+             <span class="token comment">;; More modes defined here...</span>
+             <span class="token punctuation">)</span>
+      <span class="token lisp-property property">:preface</span>
+      <span class="token punctuation">(</span><span class="token defun"><span class="token keyword">defun</span> <span class="token function">os/setup-install-grammars</span> <span class="token punctuation">(</span><span class="token arguments"></span><span class="token punctuation">)</span></span>
+        <span class="token string">"Install Tree-sitter grammars if they are absent."</span>
+        <span class="token punctuation">(</span><span class="token interactive keyword">interactive</span><span class="token punctuation">)</span>
+        <span class="token punctuation">(</span><span class="token car">dolist</span> <span class="token punctuation">(</span><span class="token car">grammar</span>
+                 <span class="token punctuation">'(</span><span class="token punctuation">(</span><span class="token car">css</span> <span class="token punctuation">.</span> <span class="token punctuation">(</span><span class="token string">"https://github.com/tree-sitter/tree-sitter-css"</span> <span class="token string">"v0.20.0"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                   <span class="token punctuation">(</span><span class="token car">bash</span> <span class="token string">"https://github.com/tree-sitter/tree-sitter-bash"</span><span class="token punctuation">)</span>
+                   <span class="token punctuation">(</span><span class="token car">html</span> <span class="token punctuation">.</span> <span class="token punctuation">(</span><span class="token string">"https://github.com/tree-sitter/tree-sitter-html"</span> <span class="token string">"v0.20.1"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                   <span class="token punctuation">(</span><span class="token car">javascript</span> <span class="token punctuation">.</span> <span class="token punctuation">(</span><span class="token string">"https://github.com/tree-sitter/tree-sitter-javascript"</span> <span class="token string">"v0.21.2"</span> <span class="token string">"src"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                   <span class="token punctuation">(</span><span class="token car">json</span> <span class="token punctuation">.</span> <span class="token punctuation">(</span><span class="token string">"https://github.com/tree-sitter/tree-sitter-json"</span> <span class="token string">"v0.20.2"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                   <span class="token punctuation">(</span><span class="token car">python</span> <span class="token punctuation">.</span> <span class="token punctuation">(</span><span class="token string">"https://github.com/tree-sitter/tree-sitter-python"</span> <span class="token string">"v0.20.4"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                   <span class="token punctuation">(</span><span class="token car">go</span> <span class="token string">"https://github.com/tree-sitter/tree-sitter-go"</span> <span class="token string">"v0.20.0"</span><span class="token punctuation">)</span>
+                   <span class="token punctuation">(</span><span class="token car">markdown</span> <span class="token string">"https://github.com/ikatyang/tree-sitter-markdown"</span><span class="token punctuation">)</span>
+                   <span class="token punctuation">(</span><span class="token car">make</span> <span class="token string">"https://github.com/alemuller/tree-sitter-make"</span><span class="token punctuation">)</span>
+                   <span class="token punctuation">(</span><span class="token car">elisp</span> <span class="token string">"https://github.com/Wilfred/tree-sitter-elisp"</span><span class="token punctuation">)</span>
+                   <span class="token punctuation">(</span><span class="token car">cmake</span> <span class="token string">"https://github.com/uyha/tree-sitter-cmake"</span><span class="token punctuation">)</span>
+                   <span class="token punctuation">(</span><span class="token car">c</span> <span class="token string">"https://github.com/tree-sitter/tree-sitter-c"</span><span class="token punctuation">)</span>
+                   <span class="token punctuation">(</span><span class="token car">cpp</span> <span class="token string">"https://github.com/tree-sitter/tree-sitter-cpp"</span><span class="token punctuation">)</span>
+                   <span class="token punctuation">(</span><span class="token car">toml</span> <span class="token string">"https://github.com/tree-sitter/tree-sitter-toml"</span><span class="token punctuation">)</span>
+                   <span class="token punctuation">(</span><span class="token car">tsx</span> <span class="token punctuation">.</span> <span class="token punctuation">(</span><span class="token string">"https://github.com/tree-sitter/tree-sitter-typescript"</span> <span class="token string">"v0.20.3"</span> <span class="token string">"tsx/src"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                   <span class="token punctuation">(</span><span class="token car">typescript</span> <span class="token punctuation">.</span> <span class="token punctuation">(</span><span class="token string">"https://github.com/tree-sitter/tree-sitter-typescript"</span> <span class="token string">"v0.20.3"</span> <span class="token string">"typescript/src"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                   <span class="token punctuation">(</span><span class="token car">yaml</span> <span class="token punctuation">.</span> <span class="token punctuation">(</span><span class="token string">"https://github.com/ikatyang/tree-sitter-yaml"</span> <span class="token string">"v0.5.0"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                   <span class="token punctuation">(</span><span class="token car">prisma</span> <span class="token string">"https://github.com/victorhqc/tree-sitter-prisma"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+          <span class="token punctuation">(</span><span class="token car">add-to-list</span> <span class="token quoted-symbol variable symbol">'treesit-language-source-alist</span> grammar<span class="token punctuation">)</span>
+          <span class="token comment">;; Only install `grammar' if we don't already have it</span>
+          <span class="token comment">;; installed. However, if you want to *update* a grammar then</span>
+          <span class="token comment">;; this obviously prevents that from happening.</span>
+          <span class="token punctuation">(</span><span class="token keyword">unless</span> <span class="token punctuation">(</span><span class="token car">treesit-language-available-p</span> <span class="token punctuation">(</span><span class="token car">car</span> grammar<span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token punctuation">(</span><span class="token car">treesit-install-language-grammar</span> <span class="token punctuation">(</span><span class="token car">car</span> grammar<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+      <span class="token comment">;; Optional, but recommended. Tree-sitter enabled major modes are</span>
+      <span class="token comment">;; distinct from their ordinary counterparts.</span>
+      <span class="token comment">;;</span>
+      <span class="token comment">;; You can remap major modes with `major-mode-remap-alist'. Note</span>
+      <span class="token comment">;; that this does *not* extend to hooks! Make sure you migrate them</span>
+      <span class="token comment">;; also</span>
+      <span class="token punctuation">(</span><span class="token car">dolist</span> <span class="token punctuation">(</span><span class="token car">mapping</span>
+               <span class="token punctuation">'(</span><span class="token punctuation">(</span><span class="token car">python-mode</span> <span class="token punctuation">.</span> python-ts-mode<span class="token punctuation">)</span>
+                 <span class="token punctuation">(</span><span class="token car">css-mode</span> <span class="token punctuation">.</span> css-ts-mode<span class="token punctuation">)</span>
+                 <span class="token punctuation">(</span><span class="token car">typescript-mode</span> <span class="token punctuation">.</span> typescript-ts-mode<span class="token punctuation">)</span>
+                 <span class="token punctuation">(</span><span class="token car">js-mode</span> <span class="token punctuation">.</span> typescript-ts-mode<span class="token punctuation">)</span>
+                 <span class="token punctuation">(</span><span class="token car">js2-mode</span> <span class="token punctuation">.</span> typescript-ts-mode<span class="token punctuation">)</span>
+                 <span class="token punctuation">(</span><span class="token car">c-mode</span> <span class="token punctuation">.</span> c-ts-mode<span class="token punctuation">)</span>
+                 <span class="token punctuation">(</span><span class="token car">c++-mode</span> <span class="token punctuation">.</span> c++-ts-mode<span class="token punctuation">)</span>
+                 <span class="token punctuation">(</span><span class="token car">c-or-c++-mode</span> <span class="token punctuation">.</span> c-or-c++-ts-mode<span class="token punctuation">)</span>
+                 <span class="token punctuation">(</span><span class="token car">bash-mode</span> <span class="token punctuation">.</span> bash-ts-mode<span class="token punctuation">)</span>
+                 <span class="token punctuation">(</span><span class="token car">css-mode</span> <span class="token punctuation">.</span> css-ts-mode<span class="token punctuation">)</span>
+                 <span class="token punctuation">(</span><span class="token car">json-mode</span> <span class="token punctuation">.</span> json-ts-mode<span class="token punctuation">)</span>
+                 <span class="token punctuation">(</span><span class="token car">js-json-mode</span> <span class="token punctuation">.</span> json-ts-mode<span class="token punctuation">)</span>
+                 <span class="token punctuation">(</span><span class="token car">sh-mode</span> <span class="token punctuation">.</span> bash-ts-mode<span class="token punctuation">)</span>
+                 <span class="token punctuation">(</span><span class="token car">sh-base-mode</span> <span class="token punctuation">.</span> bash-ts-mode<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">(</span><span class="token car">add-to-list</span> <span class="token quoted-symbol variable symbol">'major-mode-remap-alist</span> mapping<span class="token punctuation">)</span><span class="token punctuation">)</span>
+      <span class="token lisp-property property">:config</span>
+      <span class="token punctuation">(</span><span class="token car">os/setup-install-grammars</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<p>Full credit for this clean <code>treesitter</code> setup goes to <a href="https://github.com/mickeynp">Mickey Petersen</a> in the
+<a href="https://github.com/mickeynp/combobulate?tab=readme-ov-file#complete-example-with-tree-sitter-grammar-installation">Combobulate Treesitter section</a></p>
+<a id="orgc542f94"></a>
+<h2>LSP Support</h2>
+<p>We'll need LSP support for features like <code>completion</code>,<code>go-to-definition,</code>
+renaming variable in the entire project and so on. Web development is particularly different then other environments because you need more than one LSP provider.</p>
+<p>If you look at VSCode, in a project with Tailwind support, there are 3 LSP servers active at the same time, providing actions for users.</p>
+<p>If you want a comprehensive comparison between the current LSP options for emacs, <a href="https://www.reddit.com/r/emacs/comments/1c0v28k/lspmode_vs_lspbridge_vs_lspce_vs_eglot/">here is the best comparison I found</a>.</p>
+<p>I've tried <code>eglot</code>, <code>lsp-bridge</code> &amp; <code>lsp-mode</code>:</p>
+<ul>
+<li>
+<p><a href="https://github.com/joaotavora/eglot">eglot</a> is a nice since it's the emacs default but it doesn't support multiple servers in the same buffer which makes it a non-candidate.</p>
+</li>
+<li>
+<p><a href="https://github.com/manateelazycat/lsp-bridge">lsp-bridge</a> is the <strong>fastest</strong> provider but all tools used are custom made (custom completion, custom reference explorer) which makes it hard to integrate into your normal workflow. Setting it up is also harder than the rest</p>
+</li>
+<li>
+<p><a href="https://emacs-lsp.github.io/lsp-mode/">lsp-mode</a> satisfies all the criteria and all the bells &amp; whistles that it comes with can be muted so this is the provider I chose. We will
+delve in the performance tweaks after the initial setup.</p>
+</li>
+</ul>
+<a id="org95be3b8"></a>
+<h3>Completion setup</h3>
+<p>First we need to setup a completion provider. For this I use <a href="https://github.com/minad/corfu">Corfu</a>:</p>
+<pre class="language-elisp"><code class="language-elisp">    <span class="token heading comment title">;;;; Code Completion</span>
+    <span class="token heading comment title">;;;; Code Completion</span>
+    <span class="token punctuation">(</span><span class="token keyword">use-package</span> corfu
+      <span class="token lisp-property property">:ensure</span> <span class="token boolean">t</span>
+      <span class="token comment">;; Optional customizations</span>
+      <span class="token lisp-property property">:custom</span>
+      <span class="token punctuation">(</span><span class="token car">corfu-cycle</span> <span class="token boolean">t</span><span class="token punctuation">)</span>                 <span class="token comment">; Allows cycling through candidates</span>
+      <span class="token punctuation">(</span><span class="token car">corfu-auto</span> <span class="token boolean">t</span><span class="token punctuation">)</span>                  <span class="token comment">; Enable auto completion</span>
+      <span class="token punctuation">(</span><span class="token car">corfu-auto-prefix</span> <span class="token number">2</span><span class="token punctuation">)</span>           <span class="token comment">; Minimum length of prefix for completion</span>
+      <span class="token punctuation">(</span><span class="token car">corfu-auto-delay</span> <span class="token number">0</span><span class="token punctuation">)</span>            <span class="token comment">; No delay for completion</span>
+      <span class="token punctuation">(</span><span class="token car">corfu-popupinfo-delay</span> <span class="token punctuation">'(</span><span class="token number">0.5</span> <span class="token punctuation">.</span> <span class="token number">0.2</span><span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment">; Automatically update info popup after that numver of seconds</span>
+      <span class="token punctuation">(</span><span class="token car">corfu-preview-current</span> <span class="token quoted-symbol variable symbol">'insert</span><span class="token punctuation">)</span> <span class="token comment">; insert previewed candidate</span>
+      <span class="token punctuation">(</span><span class="token car">corfu-preselect</span> <span class="token quoted-symbol variable symbol">'prompt</span><span class="token punctuation">)</span>
+      <span class="token punctuation">(</span><span class="token car">corfu-on-exact-match</span> <span class="token boolean">nil</span><span class="token punctuation">)</span>      <span class="token comment">; Don't auto expand tempel snippets</span>
+      <span class="token comment">;; Optionally use TAB for cycling, default is `corfu-complete'.</span>
+      <span class="token lisp-property property">:bind</span> <span class="token punctuation">(</span><span class="token lisp-property property">:map</span> corfu-map
+                  <span class="token punctuation">(</span><span class="token string">"M-SPC"</span>      <span class="token punctuation">.</span> corfu-insert-separator<span class="token punctuation">)</span>
+                  <span class="token punctuation">(</span><span class="token string">"TAB"</span>        <span class="token punctuation">.</span> corfu-next<span class="token punctuation">)</span>
+                  <span class="token punctuation">(</span><span class="token punctuation">[</span>tab<span class="token punctuation">]</span>        <span class="token punctuation">.</span> corfu-next<span class="token punctuation">)</span>
+                  <span class="token punctuation">(</span><span class="token string">"S-TAB"</span>      <span class="token punctuation">.</span> corfu-previous<span class="token punctuation">)</span>
+                  <span class="token punctuation">(</span><span class="token punctuation">[</span>backtab<span class="token punctuation">]</span>    <span class="token punctuation">.</span> corfu-previous<span class="token punctuation">)</span>
+                  <span class="token punctuation">(</span><span class="token string">"S-&lt;return&gt;"</span> <span class="token punctuation">.</span> corfu-insert<span class="token punctuation">)</span>
+                  <span class="token punctuation">(</span><span class="token string">"RET"</span>        <span class="token punctuation">.</span> corfu-insert<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+      <span class="token lisp-property property">:init</span>
+      <span class="token punctuation">(</span><span class="token car">global-corfu-mode</span><span class="token punctuation">)</span>
+      <span class="token punctuation">(</span><span class="token car">corfu-history-mode</span><span class="token punctuation">)</span>
+      <span class="token punctuation">(</span><span class="token car">corfu-popupinfo-mode</span><span class="token punctuation">)</span> <span class="token comment">; Popup completion info</span>
+      <span class="token lisp-property property">:config</span>
+      <span class="token punctuation">(</span><span class="token car">add-hook</span> <span class="token quoted-symbol variable symbol">'eshell-mode-hook</span>
+                <span class="token punctuation">(</span><span class="token lambda"><span class="token keyword">lambda</span> <span class="token punctuation">(</span><span class="token arguments"></span><span class="token punctuation">)</span></span> <span class="token punctuation">(</span><span class="token car">setq-local</span> corfu-quit-at-boundary <span class="token boolean">t</span>
+                                       corfu-quit-no-match <span class="token boolean">t</span>
+                                       corfu-auto <span class="token boolean">nil</span><span class="token punctuation">)</span>
+                  <span class="token punctuation">(</span><span class="token car">corfu-mode</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token boolean">nil</span>
+                <span class="token boolean">t</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<a id="org014ff07"></a>
+<h3>Linter setup</h3>
+<p>Optionally you can setup a linter through which lsp-mode will give you
+diagnostics for your project &amp; buffer.</p>
+<pre class="language-elisp"><code class="language-elisp">    <span class="token punctuation">(</span><span class="token keyword">use-package</span> flycheck
+      <span class="token lisp-property property">:ensure</span> <span class="token boolean">t</span>
+      <span class="token lisp-property property">:init</span> <span class="token punctuation">(</span><span class="token car">global-flycheck-mode</span><span class="token punctuation">)</span>
+      <span class="token lisp-property property">:bind</span> <span class="token punctuation">(</span><span class="token lisp-property property">:map</span> flycheck-mode-map
+                  <span class="token punctuation">(</span><span class="token string">"M-n"</span> <span class="token punctuation">.</span> flycheck-next-error<span class="token punctuation">)</span> <span class="token comment">; optional but recommended error navigation</span>
+                  <span class="token punctuation">(</span><span class="token string">"M-p"</span> <span class="token punctuation">.</span> flycheck-previous-error<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<a id="org0c47228"></a>
+<h3>LSP Setup</h3>
+<pre class="language-elisp"><code class="language-elisp"><span class="token punctuation">(</span><span class="token keyword">use-package</span> lsp-mode
+      <span class="token lisp-property property">:diminish</span> <span class="token string">"LSP"</span>
+      <span class="token lisp-property property">:ensure</span> <span class="token boolean">t</span>
+      <span class="token lisp-property property">:hook</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token car">lsp-mode</span> <span class="token punctuation">.</span> lsp-diagnostics-mode<span class="token punctuation">)</span>
+             <span class="token punctuation">(</span><span class="token car">lsp-mode</span> <span class="token punctuation">.</span> lsp-enable-which-key-integration<span class="token punctuation">)</span>
+             <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token car">tsx-ts-mode</span>
+               typescript-ts-mode
+               js-ts-mode<span class="token punctuation">)</span> <span class="token punctuation">.</span> lsp-deferred<span class="token punctuation">)</span><span class="token punctuation">)</span>
+      <span class="token lisp-property property">:custom</span>
+      <span class="token punctuation">(</span><span class="token car">lsp-keymap-prefix</span> <span class="token string">"C-c l"</span><span class="token punctuation">)</span>           <span class="token comment">; Prefix for LSP actions</span>
+      <span class="token punctuation">(</span><span class="token car">lsp-completion-provider</span> <span class="token lisp-property property">:none</span><span class="token punctuation">)</span>       <span class="token comment">; Using Corfu as the provider</span>
+      <span class="token punctuation">(</span><span class="token car">lsp-diagnostics-provider</span> <span class="token lisp-property property">:flycheck</span><span class="token punctuation">)</span>
+      <span class="token punctuation">(</span><span class="token car">lsp-session-file</span> <span class="token punctuation">(</span><span class="token car">locate-user-emacs-file</span> <span class="token string">".lsp-session"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+      <span class="token punctuation">(</span><span class="token car">lsp-log-io</span> <span class="token boolean">nil</span><span class="token punctuation">)</span>                      <span class="token comment">; IMPORTANT! Use only for debugging! Drastically affects performance</span>
+      <span class="token punctuation">(</span><span class="token car">lsp-keep-workspace-alive</span> <span class="token boolean">nil</span><span class="token punctuation">)</span>        <span class="token comment">; Close LSP server if all project buffers are closed</span>
+      <span class="token punctuation">(</span><span class="token car">lsp-idle-delay</span> <span class="token number">0.5</span><span class="token punctuation">)</span>                  <span class="token comment">; Debounce timer for `after-change-function'</span>
+      <span class="token comment">;; core</span>
+      <span class="token punctuation">(</span><span class="token car">lsp-enable-xref</span> <span class="token boolean">t</span><span class="token punctuation">)</span>                   <span class="token comment">; Use xref to find references</span>
+      <span class="token punctuation">(</span><span class="token car">lsp-auto-configure</span> <span class="token boolean">t</span><span class="token punctuation">)</span>                <span class="token comment">; Used to decide between current active servers</span>
+      <span class="token punctuation">(</span><span class="token car">lsp-eldoc-enable-hover</span> <span class="token boolean">t</span><span class="token punctuation">)</span>            <span class="token comment">; Display signature information in the echo area</span>
+      <span class="token punctuation">(</span><span class="token car">lsp-enable-dap-auto-configure</span> <span class="token boolean">t</span><span class="token punctuation">)</span>     <span class="token comment">; Debug support</span>
+      <span class="token punctuation">(</span><span class="token car">lsp-enable-file-watchers</span> <span class="token boolean">nil</span><span class="token punctuation">)</span>
+      <span class="token punctuation">(</span><span class="token car">lsp-enable-folding</span> <span class="token boolean">nil</span><span class="token punctuation">)</span>              <span class="token comment">; I disable folding since I use origami</span>
+      <span class="token punctuation">(</span><span class="token car">lsp-enable-imenu</span> <span class="token boolean">t</span><span class="token punctuation">)</span>
+      <span class="token punctuation">(</span><span class="token car">lsp-enable-indentation</span> <span class="token boolean">nil</span><span class="token punctuation">)</span>          <span class="token comment">; I use prettier</span>
+      <span class="token punctuation">(</span><span class="token car">lsp-enable-links</span> <span class="token boolean">nil</span><span class="token punctuation">)</span>                <span class="token comment">; No need since we have `browse-url'</span>
+      <span class="token punctuation">(</span><span class="token car">lsp-enable-on-type-formatting</span> <span class="token boolean">nil</span><span class="token punctuation">)</span>   <span class="token comment">; Prettier handles this</span>
+      <span class="token punctuation">(</span><span class="token car">lsp-enable-suggest-server-download</span> <span class="token boolean">t</span><span class="token punctuation">)</span> <span class="token comment">; Useful prompt to download LSP providers</span>
+      <span class="token punctuation">(</span><span class="token car">lsp-enable-symbol-highlighting</span> <span class="token boolean">t</span><span class="token punctuation">)</span>     <span class="token comment">; Shows usages of symbol at point in the current buffer</span>
+      <span class="token punctuation">(</span><span class="token car">lsp-enable-text-document-color</span> <span class="token boolean">nil</span><span class="token punctuation">)</span>   <span class="token comment">; This is Treesitter's job</span>
+
+      <span class="token punctuation">(</span><span class="token car">lsp-ui-sideline-show-hover</span> <span class="token boolean">nil</span><span class="token punctuation">)</span>      <span class="token comment">; Sideline used only for diagnostics</span>
+      <span class="token punctuation">(</span><span class="token car">lsp-ui-sideline-diagnostic-max-lines</span> <span class="token number">20</span><span class="token punctuation">)</span> <span class="token comment">; 20 lines since typescript errors can be quite big</span>
+      <span class="token comment">;; completion</span>
+      <span class="token punctuation">(</span><span class="token car">lsp-completion-enable</span> <span class="token boolean">t</span><span class="token punctuation">)</span>
+      <span class="token punctuation">(</span><span class="token car">lsp-completion-enable-additional-text-edit</span> <span class="token boolean">t</span><span class="token punctuation">)</span> <span class="token comment">; Ex: auto-insert an import for a completion candidate</span>
+      <span class="token punctuation">(</span><span class="token car">lsp-enable-snippet</span> <span class="token boolean">t</span><span class="token punctuation">)</span>                         <span class="token comment">; Important to provide full JSX completion</span>
+      <span class="token punctuation">(</span><span class="token car">lsp-completion-show-kind</span> <span class="token boolean">t</span><span class="token punctuation">)</span>                   <span class="token comment">; Optional</span>
+      <span class="token comment">;; headerline</span>
+      <span class="token punctuation">(</span><span class="token car">lsp-headerline-breadcrumb-enable</span> <span class="token boolean">t</span><span class="token punctuation">)</span>  <span class="token comment">; Optional, I like the breadcrumbs</span>
+      <span class="token punctuation">(</span><span class="token car">lsp-headerline-breadcrumb-enable-diagnostics</span> <span class="token boolean">nil</span><span class="token punctuation">)</span> <span class="token comment">; Don't make them red, too noisy</span>
+      <span class="token punctuation">(</span><span class="token car">lsp-headerline-breadcrumb-enable-symbol-numbers</span> <span class="token boolean">nil</span><span class="token punctuation">)</span>
+      <span class="token punctuation">(</span><span class="token car">lsp-headerline-breadcrumb-icons-enable</span> <span class="token boolean">nil</span><span class="token punctuation">)</span>
+      <span class="token comment">;; modeline</span>
+      <span class="token punctuation">(</span><span class="token car">lsp-modeline-code-actions-enable</span> <span class="token boolean">nil</span><span class="token punctuation">)</span> <span class="token comment">; Modeline should be relatively clean</span>
+      <span class="token punctuation">(</span><span class="token car">lsp-modeline-diagnostics-enable</span> <span class="token boolean">nil</span><span class="token punctuation">)</span>  <span class="token comment">; Already supported through `flycheck'</span>
+      <span class="token punctuation">(</span><span class="token car">lsp-modeline-workspace-status-enable</span> <span class="token boolean">nil</span><span class="token punctuation">)</span> <span class="token comment">; Modeline displays "LSP" when lsp-mode is enabled</span>
+      <span class="token punctuation">(</span><span class="token car">lsp-signature-doc-lines</span> <span class="token number">1</span><span class="token punctuation">)</span>                <span class="token comment">; Don't raise the echo area. It's distracting</span>
+      <span class="token punctuation">(</span><span class="token car">lsp-ui-doc-use-childframe</span> <span class="token boolean">t</span><span class="token punctuation">)</span>              <span class="token comment">; Show docs for symbol at point</span>
+      <span class="token punctuation">(</span><span class="token car">lsp-eldoc-render-all</span> <span class="token boolean">nil</span><span class="token punctuation">)</span>            <span class="token comment">; This would be very useful if it would respect `lsp-signature-doc-lines', currently it's distracting</span>
+      <span class="token comment">;; lens</span>
+      <span class="token punctuation">(</span><span class="token car">lsp-lens-enable</span> <span class="token boolean">nil</span><span class="token punctuation">)</span>                 <span class="token comment">; Optional, I don't need it</span>
+      <span class="token comment">;; semantic</span>
+      <span class="token punctuation">(</span><span class="token car">lsp-semantic-tokens-enable</span> <span class="token boolean">nil</span><span class="token punctuation">)</span>      <span class="token comment">; Related to highlighting, and we defer to treesitter</span>
+
+      <span class="token lisp-property property">:init</span>
+      <span class="token punctuation">(</span><span class="token keyword">setq</span> lsp-use-plists <span class="token boolean">t</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+    <span class="token punctuation">(</span><span class="token keyword">use-package</span> lsp-completion
+      <span class="token lisp-property property">:no-require</span>
+      <span class="token lisp-property property">:hook</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token car">lsp-mode</span> <span class="token punctuation">.</span> lsp-completion-mode<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+    <span class="token punctuation">(</span><span class="token keyword">use-package</span> lsp-ui
+      <span class="token lisp-property property">:ensure</span> <span class="token boolean">t</span>
+      <span class="token lisp-property property">:commands</span>
+      <span class="token punctuation">(</span><span class="token car">lsp-ui-doc-show</span>
+       lsp-ui-doc-glance<span class="token punctuation">)</span>
+      <span class="token lisp-property property">:bind</span> <span class="token punctuation">(</span><span class="token lisp-property property">:map</span> lsp-mode-map
+                  <span class="token punctuation">(</span><span class="token string">"C-c C-d"</span> <span class="token punctuation">.</span> <span class="token quoted-symbol variable symbol">'lsp-ui-doc-glance</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+      <span class="token lisp-property property">:after</span> <span class="token punctuation">(</span><span class="token car">lsp-mode</span> evil<span class="token punctuation">)</span>
+      <span class="token lisp-property property">:config</span> <span class="token punctuation">(</span><span class="token keyword">setq</span> lsp-ui-doc-enable <span class="token boolean">t</span>
+                    evil-lookup-func <span class="token quoted-symbol variable symbol">#'lsp-ui-doc-glance</span> <span class="token comment">; Makes K in evil-mode toggle the doc for symbol at point</span>
+                    lsp-ui-doc-show-with-cursor <span class="token boolean">nil</span>      <span class="token comment">; Don't show doc when cursor is over symbol - too distracting</span>
+                    lsp-ui-doc-include-signature <span class="token boolean">t</span>       <span class="token comment">; Show signature</span>
+                    lsp-ui-doc-position <span class="token quoted-symbol variable symbol">'at-point</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+
+</code></pre>
+<p>It's quite big but most of it disables things I don't need. I took 90%
+of this config from Andrey Listopadov's <a href="https://andreyor.st/posts/2023-09-09-migrating-from-lsp-mode-to-eglot/">Migrating from LSP-Mode to
+Eglot</a> article where ironically in the end he moves back to lsp-mode.</p>
+<p>Now we have a minimal LSP configuration. If you visit a <code>.ts</code> or
+<code>.tsx</code> file, you will be prompted to enable LSP and most likely
+download a server. Select <code>ts-ls</code></p>
+<a id="org2b45109"></a>
+<h3>Eslint</h3>
+<p>Let's setup <code>eslint</code> to start in projects that support it</p>
+<pre class="language-elisp"><code class="language-elisp">    <span class="token punctuation">(</span><span class="token keyword">use-package</span> lsp-eslint
+      <span class="token lisp-property property">:demand</span> <span class="token boolean">t</span>
+      <span class="token lisp-property property">:after</span> lsp-mode<span class="token punctuation">)</span>
+</code></pre>
+<p>Additionally, follow the steps from <a href="https://emacs-lsp.github.io/lsp-mode/tutorials/reactjs-tutorial/#linting">LSP-Mode's React Javascript
+tutorial for adding linting</a> in order to download the server.</p>
+<a id="org843e1fd"></a>
+<h3>(Optional) Tailwind LSP Server</h3>
+<p>We'll use <a href="https://github.com/merrickluo/lsp-tailwindcss">lsp-tailwindcss</a> however it's not on Melpa so I'll use
+<a href="https://github.com/radian-software/straight.el">straight</a> to download it. You can also download the lsp-tailwindcss.el
+file and load it in your <code>init.el</code>. Here's my config</p>
+<pre class="language-elisp"><code class="language-elisp">    <span class="token punctuation">(</span><span class="token keyword">use-package</span> lsp-tailwindcss
+      <span class="token lisp-property property">:straight</span> <span class="token punctuation">'(</span><span class="token car">lsp-tailwindcss</span> <span class="token lisp-property property">:type</span> git <span class="token lisp-property property">:host</span> github <span class="token lisp-property property">:repo</span> <span class="token string">"merrickluo/lsp-tailwindcss"</span><span class="token punctuation">)</span>
+      <span class="token lisp-property property">:init</span> <span class="token punctuation">(</span><span class="token keyword">setq</span> lsp-tailwindcss-add-on-mode <span class="token boolean">t</span><span class="token punctuation">)</span>
+      <span class="token lisp-property property">:config</span>
+      <span class="token punctuation">(</span><span class="token car">dolist</span> <span class="token punctuation">(</span><span class="token car">tw-major-mode</span>
+               <span class="token punctuation">'(</span><span class="token car">css-mode</span>
+                 css-ts-mode
+                 typescript-mode
+                 typescript-ts-mode
+                 tsx-ts-mode
+                 js2-mode
+                 js-ts-mode
+                 clojure-mode<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">(</span><span class="token car">add-to-list</span> <span class="token quoted-symbol variable symbol">'lsp-tailwindcss-major-modes</span> tw-major-mode<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<p>Install the server:
+<code>M-x lsp-install-server</code>, then select <code>tailwindcss</code>.</p>
+<a id="org620d7ea"></a>
+<h2>LSP Performance</h2>
+<p>Everything is working correctly now, and you should have already good
+support for web development <em>BUT</em> performance can be better.</p>
+<p>Run <code>M-x lsp-doctor</code>. If you see</p>
+<pre><code>    Checking for Native JSON support: OK
+    Check emacs supports `read-process-output-max': OK
+    Check `read-process-output-max' default has been changed from 4k: OK
+    Byte compiled against Native JSON (recompile lsp-mode if failing when Native JSON available): OK
+    `gc-cons-threshold' increased?: OK
+    Using `plist' for deserialized objects? (refer to https://emacs-lsp.github.io/lsp-mode/page/performance/#use-plists-for-deserialization): OK
+    Using emacs 28+ with native compilation?: OK
+
+</code></pre>
+<p>You are in a very good place. If not, please have a look at <a href="https://emacs-lsp.github.io/lsp-mode/page/performance/">The
+official lsp-mode performance guide</a></p>
+<p>Here's my setting for performance</p>
+<pre class="language-elisp"><code class="language-elisp">    <span class="token punctuation">(</span><span class="token car">setenv</span> <span class="token string">"LSP_USE_PLISTS"</span> <span class="token string">"true"</span><span class="token punctuation">)</span> <span class="token comment">;; in early-init.el</span>
+
+    <span class="token comment">;; init.el</span>
+    <span class="token heading comment title">;;;; per https://github.com/emacs-lsp/lsp-mode#performance</span>
+    <span class="token punctuation">(</span><span class="token keyword">setq</span> read-process-output-max <span class="token punctuation">(</span><span class="token car">*</span> <span class="token number">10</span> <span class="token number">1024</span> <span class="token number">1024</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">;; 10mb</span>
+    <span class="token punctuation">(</span><span class="token keyword">setq</span> gc-cons-threshold <span class="token number">200000000</span><span class="token punctuation">)</span>
+</code></pre>
+<a id="orgc88562e"></a>
+<h3>Emacs LSP Booster</h3>
+<p>My experience has been that even with all of these improvements,
+you'll still get consistent freezes in your UI given the single
+threaded sync nature of Emacs.</p>
+<p>I'll admit I was close to starting exploring Nvim until I found <a href="https://github.com/blahgeek/emacs-lsp-booster?tab=readme-ov-file">Emacs
+LSP Booster</a>.</p>
+<p>The most expensive operation for an LSP provider is parsing JSON since
+that is the agreed-upon protocol. While newer versions of Emacs ship
+with native JSON support, it's still not performant enough especially for servers like Tailwind which I found give emacs a lot of JSON to parse.</p>
+<p>LSP Booster is an external executable that wraps LSP server providers
+and asynchronously converts JSON to <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Property-Lists.html">plists</a> so lsp-mode can use them
+directly.</p>
+<p>To install, follow the instructions from the github repository. After
+that add these lines in your <code>lsp-mode</code> config:</p>
+<pre class="language-elisp"><code class="language-elisp">    <span class="token punctuation">(</span><span class="token keyword">use-package</span> lsp-mode
+      <span class="token comment">;; ... previous configuration</span>
+      <span class="token lisp-property property">:preface</span>
+      <span class="token punctuation">(</span><span class="token defun"><span class="token keyword">defun</span> <span class="token function">lsp-booster--advice-json-parse</span> <span class="token punctuation">(</span><span class="token arguments"><span class="token argument variable">old-fn</span> <span class="token rest-vars"><span class="token lisp-marker">&amp;rest</span> <span class="token argument variable">args</span></span></span><span class="token punctuation">)</span></span>
+        <span class="token string">"Try to parse bytecode instead of json."</span>
+        <span class="token punctuation">(</span><span class="token keyword">or</span>
+         <span class="token punctuation">(</span><span class="token keyword">when</span> <span class="token punctuation">(</span><span class="token car">equal</span> <span class="token punctuation">(</span><span class="token car">following-char</span><span class="token punctuation">)</span> ?#<span class="token punctuation">)</span>
+
+           <span class="token punctuation">(</span><span class="token keyword">let</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token car">bytecode</span> <span class="token punctuation">(</span><span class="token car">read</span> <span class="token punctuation">(</span><span class="token car">current-buffer</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+             <span class="token punctuation">(</span><span class="token keyword">when</span> <span class="token punctuation">(</span><span class="token car">byte-code-function-p</span> bytecode<span class="token punctuation">)</span>
+               <span class="token punctuation">(</span><span class="token car">funcall</span> bytecode<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+         <span class="token punctuation">(</span><span class="token car">apply</span> old-fn args<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+      <span class="token punctuation">(</span><span class="token defun"><span class="token keyword">defun</span> <span class="token function">lsp-booster--advice-final-command</span> <span class="token punctuation">(</span><span class="token arguments"><span class="token argument variable">old-fn</span> <span class="token argument variable">cmd</span> <span class="token other-marker-vars"><span class="token lisp-marker">&amp;optional</span> <span class="token argument variable">test</span>?</span></span><span class="token punctuation">)</span></span>
+        <span class="token string">"Prepend emacs-lsp-booster command to lsp <span class="token argument">CMD</span>."</span>
+        <span class="token punctuation">(</span><span class="token keyword">let</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token car">orig-result</span> <span class="token punctuation">(</span><span class="token car">funcall</span> old-fn cmd test?<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+          <span class="token punctuation">(</span><span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">and</span> <span class="token punctuation">(</span><span class="token keyword">not</span> test?<span class="token punctuation">)</span>                             <span class="token comment">;; for check lsp-server-present?</span>
+                   <span class="token punctuation">(</span><span class="token keyword">not</span> <span class="token punctuation">(</span><span class="token car">file-remote-p</span> default-directory<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">;; see lsp-resolve-final-command, it would add extra shell wrapper</span>
+                   lsp-use-plists
+                   <span class="token punctuation">(</span><span class="token keyword">not</span> <span class="token punctuation">(</span><span class="token car">functionp</span> <span class="token quoted-symbol variable symbol">'json-rpc-connection</span><span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment">;; native json-rpc</span>
+                   <span class="token punctuation">(</span><span class="token car">executable-find</span> <span class="token string">"emacs-lsp-booster"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+              <span class="token punctuation">(</span><span class="token car">progn</span>
+                <span class="token punctuation">(</span><span class="token keyword">message</span> <span class="token string">"Using emacs-lsp-booster for %s!"</span> orig-result<span class="token punctuation">)</span>
+                <span class="token punctuation">(</span><span class="token keyword">cons</span> <span class="token string">"emacs-lsp-booster"</span> orig-result<span class="token punctuation">)</span><span class="token punctuation">)</span>
+            orig-result<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+      <span class="token lisp-property property">:init</span>
+      <span class="token punctuation">(</span><span class="token keyword">setq</span> lsp-use-plists <span class="token boolean">t</span><span class="token punctuation">)</span>
+      <span class="token comment">;; Initiate https://github.com/blahgeek/emacs-lsp-booster for performance</span>
+      <span class="token punctuation">(</span><span class="token car">advice-add</span> <span class="token punctuation">(</span><span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token car">progn</span> <span class="token punctuation">(</span><span class="token keyword">require</span> <span class="token quoted-symbol variable symbol">'json</span><span class="token punctuation">)</span>
+                             <span class="token punctuation">(</span><span class="token car">fboundp</span> <span class="token quoted-symbol variable symbol">'json-parse-buffer</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                      <span class="token quoted-symbol variable symbol">'json-parse-buffer</span>
+                    <span class="token quoted-symbol variable symbol">'json-read</span><span class="token punctuation">)</span>
+                  <span class="token lisp-property property">:around</span>
+                  <span class="token quoted-symbol variable symbol">#'lsp-booster--advice-json-parse</span><span class="token punctuation">)</span>
+      <span class="token punctuation">(</span><span class="token car">advice-add</span> <span class="token quoted-symbol variable symbol">'lsp-resolve-final-command</span> <span class="token lisp-property property">:around</span> <span class="token quoted-symbol variable symbol">#'lsp-booster--advice-final-command</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<p>Now your LSP completions will be blazingly fast 🔥 and there will be no UI freezes!</p>
+<a id="orgd4dc6d9"></a>
+<h2>Structural editing</h2>
+<p>I use <a href="https://github.com/mickeynp/combobulate">Combobulate</a> for structural editing. It adds support for structural navigation and edition like you would get in lisp-like languages.</p>
+<p>Here's the config, from the repo itself:</p>
+<pre class="language-elisp"><code class="language-elisp"><span class="token punctuation">(</span><span class="token keyword">use-package</span> treesit
+  <span class="token comment">;; ... all the config from above</span>
+  <span class="token lisp-property property">:config</span>
+  <span class="token punctuation">(</span><span class="token car">os/setup-install-grammars</span><span class="token punctuation">)</span>
+  <span class="token comment">;; Do not forget to customize Combobulate to your liking:</span>
+  <span class="token comment">;;</span>
+  <span class="token comment">;;  M-x customize-group RET combobulate RET</span>
+  <span class="token comment">;;</span>
+  <span class="token punctuation">(</span><span class="token keyword">use-package</span> combobulate
+    <span class="token lisp-property property">:preface</span>
+    <span class="token comment">;; You can customize Combobulate's key prefix here.</span>
+    <span class="token comment">;; Note that you may have to restart Emacs for this to take effect!</span>
+    <span class="token punctuation">(</span><span class="token keyword">setq</span> combobulate-key-prefix <span class="token string">"C-c o"</span><span class="token punctuation">)</span>
+
+    <span class="token comment">;; Optional, but recommended.</span>
+    <span class="token comment">;;</span>
+    <span class="token comment">;; You can manually enable Combobulate with `M-x</span>
+    <span class="token comment">;; combobulate-mode'.</span>
+    <span class="token lisp-property property">:hook</span>
+    <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token car">python-ts-mode</span> <span class="token punctuation">.</span> combobulate-mode<span class="token punctuation">)</span>
+     <span class="token punctuation">(</span><span class="token car">js-ts-mode</span> <span class="token punctuation">.</span> combobulate-mode<span class="token punctuation">)</span>
+     <span class="token punctuation">(</span><span class="token car">go-mode</span> <span class="token punctuation">.</span> go-ts-mode<span class="token punctuation">)</span>
+     <span class="token punctuation">(</span><span class="token car">html-ts-mode</span> <span class="token punctuation">.</span> combobulate-mode<span class="token punctuation">)</span>
+     <span class="token punctuation">(</span><span class="token car">css-ts-mode</span> <span class="token punctuation">.</span> combobulate-mode<span class="token punctuation">)</span>
+     <span class="token punctuation">(</span><span class="token car">yaml-ts-mode</span> <span class="token punctuation">.</span> combobulate-mode<span class="token punctuation">)</span>
+     <span class="token punctuation">(</span><span class="token car">typescript-ts-mode</span> <span class="token punctuation">.</span> combobulate-mode<span class="token punctuation">)</span>
+     <span class="token punctuation">(</span><span class="token car">json-ts-mode</span> <span class="token punctuation">.</span> combobulate-mode<span class="token punctuation">)</span>
+     <span class="token punctuation">(</span><span class="token car">tsx-ts-mode</span> <span class="token punctuation">.</span> combobulate-mode<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token comment">;; Amend this to the directory where you keep Combobulate's source</span>
+    <span class="token comment">;; code.</span>
+    <span class="token lisp-property property">:load-path</span> <span class="token punctuation">(</span><span class="token string">"~/workspace/combobulate"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<p>Here's the result:</p>
+<img src="./Modern-Emacs-Typescript-Web-React-wt-lsp-mode-treesitter-tailwind-TSX-etc_files/combobulate-demo.gif">
+<a id="orgcc099c1"></a>
+<h2>Formatting buffers with prettier</h2>
+<p>I use <a href="https://github.com/radian-software/apheleia">apheleia</a> for formatting buffers on save. It works great and almost out of the box.</p>
+<pre class="language-elisp"><code class="language-elisp"><span class="token heading comment title">;;; APHELEIA</span>
+<span class="token comment">;; auto-format different source code files extremely intelligently</span>
+<span class="token comment">;; https://github.com/radian-software/apheleia</span>
+<span class="token punctuation">(</span><span class="token keyword">use-package</span> apheleia
+  <span class="token lisp-property property">:ensure</span> apheleia
+  <span class="token lisp-property property">:diminish</span> <span class="token string">""</span>
+  <span class="token lisp-property property">:defines</span>
+  apheleia-formatters
+  apheleia-mode-alist
+  <span class="token lisp-property property">:functions</span>
+  apheleia-global-mode
+  <span class="token lisp-property property">:config</span>
+  <span class="token punctuation">(</span><span class="token car">setf</span> <span class="token punctuation">(</span><span class="token car">alist-get</span> <span class="token quoted-symbol variable symbol">'prettier-json</span> apheleia-formatters<span class="token punctuation">)</span>
+        <span class="token punctuation">'(</span><span class="token string">"prettier"</span> <span class="token string">"--stdin-filepath"</span> filepath<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">(</span><span class="token car">apheleia-global-mode</span> <span class="token number">+1</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+</code></pre>
+<p>And now, apheleia will take your <code>.prettierrc</code> from the repository root and use that to format your files whenever you save.</p>
+<a id="other-resources"></a>
+<h2>Other resources</h2>
+<p>Here are some other resources that I explored which might be handy:</p>
+<ul>
+<li><a href="https://github.com/orzechowskid/tsx-mode.el">tsx-mode.el</a> - Special TSX mode that handles auto-closing tags, css-in-js, line code coverage and code folding</li>
+<li><a href="https://github.com/ananthakumaran/tide">tide</a> - Typescript interactive development. Works well out of the box and is the default choice in Doom Emacs. I found it is limited in a monorepo setup.</li>
+</ul>
+<a id="conclusion"></a>
+<h2>Conclusion</h2>
+<p>I am very happy with the current setup I landed on and it took me a while to make it resemble the experience from VSCode &amp; Webstorm.</p>
+<p>I worked with this configuration within a big monorepo at my previous job and it performs as you expected.</p>
+<p>Hope this is useful for you! If you think others might benefit, give it a share!</p></div></article></div></div></div></div></div></div></main><footer class="mt-32"><div class="sm:px-8"><div class="mx-auto max-w-7xl lg:px-8"><div class="border-t border-zinc-100 pt-10 pb-16 dark:border-zinc-700/40"><div class="relative px-4 sm:px-8 lg:px-12"><div class="mx-auto max-w-2xl lg:max-w-5xl"><div class="flex flex-col items-center justify-between gap-6 sm:flex-row"><div class="flex gap-6 text-sm font-medium text-zinc-800 dark:text-zinc-200"><a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="https://www.ovistoica.com/about">About</a><a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="https://www.ovistoica.com/projects">Projects</a><a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="https://www.ovistoica.com/blog">Blog</a><a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="https://www.ovistoica.com/videos">Videos</a><a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="https://www.ovistoica.com/uses">Uses</a></div><p class="text-sm text-zinc-400 dark:text-zinc-500">© <!-- -->2024<!-- --> Ovi Stoica. All rights reserved.</p></div></div></div></div></div></div></footer></div></div><script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{}},"page":"/blog/2024-7-05-modern-emacs-typescript-web-tsx-config","query":{},"buildId":"nVnuBW2ZguFskJyDU_r58","nextExport":true,"autoExport":true,"isFallback":false,"scriptLoader":[]}</script><script src="./Modern-Emacs-Typescript-Web-React-wt-lsp-mode-treesitter-tailwind-TSX-etc_files/script.js" async="true" defer="true" data-domain="ovistoica.com" data-nscript="afterInteractive"></script><script id="next-plausible-init" data-nscript="afterInteractive">window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script><next-route-announcer><p aria-live="assertive" id="__next-route-announcer__" role="alert" style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; width: 1px; white-space: nowrap; overflow-wrap: normal;"></p></next-route-announcer><script src="./Modern-Emacs-Typescript-Web-React-wt-lsp-mode-treesitter-tailwind-TSX-etc_files/index-b8319ef4282af574.js"></script><script src="./Modern-Emacs-Typescript-Web-React-wt-lsp-mode-treesitter-tailwind-TSX-etc_files/tags-a74862d83d5c266a.js"></script><script src="./Modern-Emacs-Typescript-Web-React-wt-lsp-mode-treesitter-tailwind-TSX-etc_files/about-936e3de6ebf35d25.js"></script><script src="./Modern-Emacs-Typescript-Web-React-wt-lsp-mode-treesitter-tailwind-TSX-etc_files/uses-06ee448b83b2b340.js"></script><script src="./Modern-Emacs-Typescript-Web-React-wt-lsp-mode-treesitter-tailwind-TSX-etc_files/videos-eb1b2dd67d6eca61.js"></script><script src="./Modern-Emacs-Typescript-Web-React-wt-lsp-mode-treesitter-tailwind-TSX-etc_files/blog-d21d1bf781afe263.js"></script><script src="./Modern-Emacs-Typescript-Web-React-wt-lsp-mode-treesitter-tailwind-TSX-etc_files/projects-cb3ae866df1d329e.js"></script></body></html>
