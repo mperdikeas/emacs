@@ -8,217 +8,232 @@
 (setenv "LSP_USE_PLISTS" "true")        ;; <a>sse-1733245426</a>
 
 
-  ;; see: http://stackoverflow.com/a/21065066/274677
-  ;;      http://stackoverflow.com/a/21342883/274677
-  (progn ; install melpa and tss package; TODO: move more packages to the MELPA install format
-    ;; https://stable.melpa.org/#/getting-started
+;; see: http://stackoverflow.com/a/21065066/274677
+;;      http://stackoverflow.com/a/21342883/274677
+(progn ; install melpa and tss package; TODO: move more packages to the MELPA install format
+  ;; https://stable.melpa.org/#/getting-started
 
-    (require 'package)
-    (setq package-enable-at-startup nil)
-    (mapc (lambda(p) (add-to-list 'package-archives p t))
-          '(("marmalade" . "http://marmalade-repo.org/packages/")
-            ("gnu" . "https://elpa.gnu.org/packages/")
-            ("melpa" . "http://melpa.org/packages/")
-            ("org" . "http://orgmode.org/elpa/"))) ;; org-mode has its own repo, see: http://stackoverflow.com/a/14838150/274677
-    ;; (package-refresh-contents) ;; uncomment this line every couple of months or so ...
+  (require 'package)
+  (setq package-enable-at-startup nil)
+  (mapc (lambda(p) (add-to-list 'package-archives p t))
+        '(("marmalade" . "http://marmalade-repo.org/packages/")
+          ("gnu" . "https://elpa.gnu.org/packages/")
+          ("melpa" . "http://melpa.org/packages/")
+          ("org" . "http://orgmode.org/elpa/"))) ;; org-mode has its own repo, see: http://stackoverflow.com/a/14838150/274677
+  ;; (package-refresh-contents) ;; uncomment this line every couple of months or so ...
+
+  
+  (package-initialize)
+
+  (unless package-archive-contents
+    (package-refresh-contents))
+
+  ;; Bootstrap `use-package' ;; http://www.lunaryorn.com/2015/01/06/my-emacs-configuration-with-use-package.html
+  (unless (package-installed-p 'use-package)
+    (package-refresh-contents)
+    (package-install 'use-package))
+
+  (require 'use-package)
+
+
+  (progn ;; I used this method to programmatically install packages on June 2020 on my T460 machine
+    ;; based on the following Reddit post (https://www.reddit.com/r/emacs/comments/dfcyy6/how_to_install_and_use_usepackage/):
+    ;; --%<------------------ start of post ----------------------------------
+
+
+    ;; Normally I (and I think most users) install it programmatically putting something like:
+
+    ;; (require 'package) ;; Emacs builtin
+
+    ;; ;; set package.el repositories
+    ;; (setq package-archives
+    ;;       '(
+    ;;         ("org" . "https://orgmode.org/elpa/")
+    ;;         ("gnu" . "https://elpa.gnu.org/packages/")
+    ;;         ("melpa" . "https://melpa.org/packages/")
+    ;;         ))
+
+    ;; ;; initialize built-in package management
+    ;; (package-initialize)
+
+    ;; ;; update packages list if we are on a new install
+    ;; (unless package-archive-contents
+    ;;   (package-refresh-contents))
+
+    ;; ;; a list of pkgs to programmatically install
+    ;; ;; ensure installed via package.el
+    ;; (setq my-package-list '(use-package))
+
+    ;; ;; programmatically install/ensure installed
+    ;; ;; pkgs in your personal list
+    ;; (dolist (package my-package-list)
+    ;;   (unless (package-installed-p package)
+    ;;     (package-install package)))
+
+    ;; ;; now you can
+    ;; ;; (use-package pkgname) etc as per
+    ;; ;; use-package example docs
+
+    ;; When you want to update do a simple `M-x list-packages` and see what to update ('U' to mark for upgrade all pkgs, 'x' to perform the upgrade, 'd' to mark for deletion etc)
+    ;; ------------------ end of post --------------------------------->%--
 
     
-    (package-initialize)
+    (setq my-package-list '(
+                            js2-mode
+                            ace-window
+                            zenburn-theme
+                            free-keys
+                            web-mode
+                            clojure-mode
+                            cider
+                            json-mode
+                            view
+                            repeat
+                            anzu
+                            ess
+                            prettier-js ;; needed during LSP setup; cf.: sse-1733399297
+                            vline ;; needed by crosshairs; cf.: sse-1733399235
+                            ))
+    ;; programmatically install/ensure installed
+    ;; pkgs in your personal list
+    (dolist (package my-package-list)
+      (unless (package-installed-p package)
+        (package-install package)))
+    )
 
-    (unless package-archive-contents
-      (package-refresh-contents))
-
-    ;; Bootstrap `use-package' ;; http://www.lunaryorn.com/2015/01/06/my-emacs-configuration-with-use-package.html
-    (unless (package-installed-p 'use-package)
-      (package-refresh-contents)
-      (package-install 'use-package))
-
-    (require 'use-package)
-
-
-    (progn ;; I used this method to programmatically install packages on June 2020 on my T460 machine
-      ;; based on the following Reddit post (https://www.reddit.com/r/emacs/comments/dfcyy6/how_to_install_and_use_usepackage/):
-      ;; --%<------------------ start of post ----------------------------------
-
-
-      ;; Normally I (and I think most users) install it programmatically putting something like:
-
-      ;; (require 'package) ;; Emacs builtin
-
-      ;; ;; set package.el repositories
-      ;; (setq package-archives
-      ;;       '(
-      ;;         ("org" . "https://orgmode.org/elpa/")
-      ;;         ("gnu" . "https://elpa.gnu.org/packages/")
-      ;;         ("melpa" . "https://melpa.org/packages/")
-      ;;         ))
-
-      ;; ;; initialize built-in package management
-      ;; (package-initialize)
-
-      ;; ;; update packages list if we are on a new install
-      ;; (unless package-archive-contents
-      ;;   (package-refresh-contents))
-
-      ;; ;; a list of pkgs to programmatically install
-      ;; ;; ensure installed via package.el
-      ;; (setq my-package-list '(use-package))
-
-      ;; ;; programmatically install/ensure installed
-      ;; ;; pkgs in your personal list
-      ;; (dolist (package my-package-list)
-      ;;   (unless (package-installed-p package)
-      ;;     (package-install package)))
-
-      ;; ;; now you can
-      ;; ;; (use-package pkgname) etc as per
-      ;; ;; use-package example docs
-
-      ;; When you want to update do a simple `M-x list-packages` and see what to update ('U' to mark for upgrade all pkgs, 'x' to perform the upgrade, 'd' to mark for deletion etc)
-      ;; ------------------ end of post --------------------------------->%--
-
-      
-      (setq my-package-list '(js2-mode ace-window zenburn-theme free-keys web-mode clojure-mode cider json-mode view repeat anzu ess))
-      ;; programmatically install/ensure installed
-      ;; pkgs in your personal list
-      (dolist (package my-package-list)
-        (unless (package-installed-p package)
-          (package-install package)))
-      )
-
-    (use-package ac-js2
+  (use-package ac-js2
       :ensure t) ;; NB: I also had to do this:
-                 ;;        just replace line 285 of ac-js2.el with this:
-                 ;;               (eval '(ac-define-source "js2"
-                 ;; see: https://github.com/ScottyB/ac-js2/issues/18#issuecomment-74518558
-                 ;;      http://stackoverflow.com/q/26812853/274677
+  ;;        just replace line 285 of ac-js2.el with this:
+  ;;               (eval '(ac-define-source "js2"
+  ;; see: https://github.com/ScottyB/ac-js2/issues/18#issuecomment-74518558
+  ;;      http://stackoverflow.com/q/26812853/274677
 
-    (use-package js2-mode
+  (use-package js2-mode
       :mode "\\.jsx?\\'" 
       :init
       (setq js2-highlight-level 3) 
-;;      (add-hook 'js2-mode-hook 'ac-js2-mode)
+      ;;      (add-hook 'js2-mode-hook 'ac-js2-mode)
       (add-hook 'js2-mode-hook (lambda () (progn (auto-revert-mode)
-                                             (setq auto-revert-interval 0.1))))
-;;      (add-hook 'js2-mode-hook 'ac-js2-setup-auto-complete-mode)
+                                                 (setq auto-revert-interval 0.1))))
+      ;;      (add-hook 'js2-mode-hook 'ac-js2-setup-auto-complete-mode)
       (message "js2-mode-config")
       :ensure t)
-                
+  
 
-    (use-package ace-window
+  (use-package ace-window
       :init
-      (global-set-key (kbd "C-x o") 'ace-window)
-      :ensure t)
+    (global-set-key (kbd "C-x o") 'ace-window)
+    :ensure t)
 
-    (use-package zenburn-theme
+  (use-package zenburn-theme
       :init
-      (load-theme 'zenburn t) ;; http://stackoverflow.com/a/8547861/274677
-      :ensure t)
+    (load-theme 'zenburn t) ;; http://stackoverflow.com/a/8547861/274677
+    :ensure t)
 
-    (use-package free-keys
+  (use-package free-keys
       :init
-      (global-set-key (kbd "C-h C-k") 'free-keys)
-      :ensure t)
+    (global-set-key (kbd "C-h C-k") 'free-keys)
+    :ensure t)
 
-    (use-package web-mode
+  (use-package web-mode
       :init
-      (progn
-        (setq web-mode-enable-current-element-highlight t)
-        (setq web-mode-enable-current-column-highlight t)
-        (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
-        (add-to-list 'auto-mode-alist '("\\.jsp\\'"  . web-mode))
-        (add-to-list 'auto-mode-alist '("\\.jsx\\'"  . web-mode))
-        (defun my-web-mode-hook ()
-          "Hooks for Web mode."
-          (setq web-mode-markup-indent-offset 2)
-          (setq web-mode-css-indent-offset 2)
-          (setq web-mode-code-indent-offset 2)
-          (setq web-mode-style-padding 1)
-          (setq web-mode-script-padding 1)
-          (setq web-mode-block-padding 0)
+    (progn
+      (setq web-mode-enable-current-element-highlight t)
+      (setq web-mode-enable-current-column-highlight t)
+      (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+      (add-to-list 'auto-mode-alist '("\\.jsp\\'"  . web-mode))
+      (add-to-list 'auto-mode-alist '("\\.jsx\\'"  . web-mode))
+      (defun my-web-mode-hook ()
+        "Hooks for Web mode."
+        (setq web-mode-markup-indent-offset 2)
+        (setq web-mode-css-indent-offset 2)
+        (setq web-mode-code-indent-offset 2)
+        (setq web-mode-style-padding 1)
+        (setq web-mode-script-padding 1)
+        (setq web-mode-block-padding 0)
+        )
+      (add-hook 'web-mode-hook  'my-web-mode-hook)
+      (eval-after-load "web-mode"
+        '(set-face-background 'web-mode-current-element-highlight-face "color-88"))
+      )
+    :ensure t)
+
+  (use-package clojure-mode :ensure t)
+  (use-package cider :ensure t)
+  (if nil
+      ;; case A: use the bindings that allow me to work with org-mode as well
+      (use-package ace-jump-mode
+          :ensure t
+          :init
+          (bind-key "C-c C-SPC" 'ace-jump-mode)
+          (bind-key "C-c C-c C-SPC" 'ace-jump-char-mode)
+          (bind-key "C-c C-c C-c C-SPC" 'ace-jump-line-mode)
           )
-        (add-hook 'web-mode-hook  'my-web-mode-hook)
-        (eval-after-load "web-mode"
-          '(set-face-background 'web-mode-current-element-highlight-face "color-88"))
-        )
-      :ensure t)
-
-    (use-package clojure-mode :ensure t)
-    (use-package cider :ensure t)
-    (if nil
-        ;; case A: use the bindings that allow me to work with org-mode as well
-        (use-package ace-jump-mode
-         :ensure t
-         :init
-         (bind-key "C-c C-SPC" 'ace-jump-mode)
-         (bind-key "C-c C-c C-SPC" 'ace-jump-char-mode)
-         (bind-key "C-c C-c C-c C-SPC" 'ace-jump-line-mode)
-        )
-       ;; case B: use the bindings that allow me to maintain the same bindings as used in my RHEL 6 machine @ CfA
-       (use-package ace-jump-mode
-         :ensure t
-         :init
-         (bind-key "C-c SPC" 'ace-jump-mode)
-         (bind-key "C-c C-c SPC" 'ace-jump-char-mode)
-         (bind-key "C-c C-c C-c SPC" 'ace-jump-line-mode)
-        )
+      ;; case B: use the bindings that allow me to maintain the same bindings as used in my RHEL 6 machine @ CfA
+      (use-package ace-jump-mode
+          :ensure t
+          :init
+          (bind-key "C-c SPC" 'ace-jump-mode)
+          (bind-key "C-c C-c SPC" 'ace-jump-char-mode)
+          (bind-key "C-c C-c C-c SPC" 'ace-jump-line-mode)
+          )
       )
 
 
-    (use-package openwith
+  (use-package openwith
       :ensure t
       :init
       (openwith-mode t)
       (setq openwith-associations '(
-                                ("\\.pdf\\'" "okular" (file))
-                                ("\\.mp3\\'" "xmms" (file))
-                                ("\\.\\(?:mpe?g\\|avi\\|wmv\\)\\'" "mplayer" ("-idx" file))
-                                ("\\.\\(?:jp?g\\|png\\)\\'" "eog" (file))
-                                ("\\.png\\'" "eog" (file))))
+                                    ("\\.pdf\\'" "okular" (file))
+                                    ("\\.mp3\\'" "xmms" (file))
+                                    ("\\.\\(?:mpe?g\\|avi\\|wmv\\)\\'" "mplayer" ("-idx" file))
+                                    ("\\.\\(?:jp?g\\|png\\)\\'" "eog" (file))
+                                    ("\\.png\\'" "eog" (file))))
       )
 
-    (use-package json-mode
+  (use-package json-mode
       :ensure t
       :init
       (put 'downcase-region 'disabled nil))
 
-    (use-package view) ;; http://www.emacswiki.org/emacs/HalfScrolling
+  (use-package view) ;; http://www.emacswiki.org/emacs/HalfScrolling
 
 
-    (use-package repeat) ;; to repeat last command: "C-x z"; once pressed, additional 'z's will keep repeating it. (this appears to be on by default)
+  (use-package repeat) ;; to repeat last command: "C-x z"; once pressed, additional 'z's will keep repeating it. (this appears to be on by default)
 
-    (use-package anzu
+  (use-package anzu
       :ensure t
       :init
       (global-anzu-mode +1)
       )
 
-    (if nil ;; 2016-12-23 I decided to stop using this package because it messed up with the M-g g goto-line binding and produced unstable results regarding the M-g binding
-    (use-package folding ;; http://emacs.stackexchange.com/a/27093/4003
-      :ensure t
-      :config
-      (folding-install-hooks)
-      (defun my-always-fold ()
-        (setq-local folded-file t))
-      (advice-add #'folding-mode-find-file :before #'my-always-fold)
-      (folding-add-to-marks-list 'js2-mode  "// {{{" "// }}}")
-      (folding-add-to-marks-list 'css-mode  "/* {{{" "}}} /*")
-      ;; below are modes for which folding does not really make sense; see this: http://emacs.stackexchange.com/q/28674/4003
-      (let ((disabled-modes-for-folding '(json-mode fundamental-mode makefile-gmake-mode
-                                          org-mode  web-mode conf-space-mode nxml-mode conf-javaprop-mode
-                                          help-mode
-           )))
-        (dolist (x disabled-modes-for-folding)
-          (folding-add-to-marks-list x "non-sensical-begin-mark" "non-sensical-begin-mark")
-          ))
+  (if nil ;; 2016-12-23 I decided to stop using this package because it messed up with the M-g g goto-line binding and produced unstable results regarding the M-g binding
+      (use-package folding ;; http://emacs.stackexchange.com/a/27093/4003
+          :ensure t
+          :config
+          (folding-install-hooks)
+          (defun my-always-fold ()
+            (setq-local folded-file t))
+          (advice-add #'folding-mode-find-file :before #'my-always-fold)
+          (folding-add-to-marks-list 'js2-mode  "// {{{" "// }}}")
+          (folding-add-to-marks-list 'css-mode  "/* {{{" "}}} /*")
+          ;; below are modes for which folding does not really make sense; see this: http://emacs.stackexchange.com/q/28674/4003
+          (let ((disabled-modes-for-folding '(json-mode fundamental-mode makefile-gmake-mode
+                                              org-mode  web-mode conf-space-mode nxml-mode conf-javaprop-mode
+                                              help-mode
+                                              )))
+            (dolist (x disabled-modes-for-folding)
+              (folding-add-to-marks-list x "non-sensical-begin-mark" "non-sensical-begin-mark")
+              ))
+          )
       )
-    )
 
-    (use-package ess
+  (use-package ess
       :ensure t
       :init (require 'ess-site))
 
-)
+  )
 
 
 
@@ -266,8 +281,8 @@
       (progn
         (set-face-background hl-line-face "#E0B0FF") ;; mauve
         (set-face-foreground hl-line-face "#000000"))
-    (progn
-      (set-face-background hl-line-face "#2E2E00")))) ;; background only: don't change foreground. Other interesting values I've tried: 470047, 2E2E00, 333300, 191975
+      (progn
+        (set-face-background hl-line-face "#2E2E00")))) ;; background only: don't change foreground. Other interesting values I've tried: 470047, 2E2E00, 333300, 191975
 
 
 (setq column-number-mode t)
@@ -275,9 +290,9 @@
 ;; Remove completion buffer when done
 (add-hook 'minibuffer-exit-hook
           '(lambda ()
-             (let ((buffer "*Completions*"))
-               (and (get-buffer buffer)
-                    (kill-buffer buffer)))))    
+            (let ((buffer "*Completions*"))
+              (and (get-buffer buffer)
+                   (kill-buffer buffer)))))    
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -287,7 +302,7 @@
  '(custom-safe-themes
    '("4e753673a37c71b07e3026be75dc6af3efbac5ce335f3707b7d6a110ecb636a3" "cdbd0a803de328a4986659d799659939d13ec01da1f482d838b68038c1bb35e8" "f5eb916f6bd4e743206913e6f28051249de8ccfd070eae47b5bde31ee813d55f" "d6a00ef5e53adf9b6fe417d2b4404895f26210c52bb8716971be106550cea257" default))
  '(inhibit-startup-screen t)
- '(org-agenda-files nil t)
+ '(org-agenda-files nil)
  '(package-selected-packages
    '(apheleia lsp-ui lsp-mode flycheck corfu gnu-elpa-keyring-update selectric-mode highlight-parentheses vlf vlf-setup ess zenburn-theme web-mode use-package scss-mode sass-mode openwith json-mode free-keys flow-minor-mode cider auto-complete anzu ace-window ace-jump-mode ac-js2)))
 (custom-set-faces
@@ -340,13 +355,13 @@
                   '((buffer-file-name
                      #("%12f" 0 4 (face bold))
                      #("%12b" 0 4 (face bold)))))
-  
-  ;; set the full path to the file to the title-bar
-  (setq frame-title-format `("@" ,(system-name) ": "
-                             (buffer-file-name "%f"
-                                               (dired-directory dired-directory
-                                                                "%b"))))
-  )
+    
+    ;; set the full path to the file to the title-bar
+    (setq frame-title-format `("@" ,(system-name) ": "
+                                   (buffer-file-name "%f"
+                                                     (dired-directory dired-directory
+                                                                      "%b"))))
+    )
 
 
 ;; the following presumable enables clipboard sharing between the
@@ -365,9 +380,9 @@
 
 
 (if
-    (= emacs-major-version 23)
-    (load "package") ;; NB: for Emacs 23 that means you need package.el on your load path.
-  )
+ (= emacs-major-version 23)
+ (load "package") ;; NB: for Emacs 23 that means you need package.el on your load path.
+ )
 
 (progn ;; Inferior Lisp
   (add-hook 'clojure-mode-hook ;; copied from: http://ubercode.de/blog/make-emacs-evaluate-clojure-in-5-minutes
@@ -412,14 +427,14 @@
     (or num (setq num 1))
     (if (= num 0)
         (current-message)
-      (save-excursion
-        (set-buffer "*Messages*")
         (save-excursion
-          (forward-line (- 1 num))
-          (backward-char)
-          (let ((end (point)))
-            (forward-line 0)
-            (buffer-substring-no-properties (point) end))))))
+          (set-buffer "*Messages*")
+          (save-excursion
+            (forward-line (- 1 num))
+            (backward-char)
+            (let ((end (point)))
+              (forward-line 0)
+              (buffer-substring-no-properties (point) end))))))
   (defun insert-last-message (&optional num)
     (interactive "*p")
     (insert (last-message num)))
@@ -475,13 +490,13 @@ With a prefix argument, insert a newline above the current line."
     (interactive "P")
     (if abovep
         (vi-open-line-above)
-      (vi-open-line-below)))
+        (vi-open-line-below)))
   (if nil ;; this was the original binding but the [insert] key is too far away
       (define-key global-map [(meta insert)] 'vi-open-line)
-    )
+      )
   (if t ;; I prefer this binding instead
       (define-key global-map (kbd "M-o") 'vi-open-line)
-    )
+      )
   )
 
 
@@ -496,7 +511,7 @@ With a prefix argument, insert a newline above the current line."
   (setq whichSolutionToUseForOrgModePDF 2) ;; set that to either 1 or 2
   (if (= whichSolutionToUseForOrgModePDF 1)
       (print "1st option for loading PDF files in org-mode in effect")
-    (print "2nd option for loading PDF files in org-mode in effect")))
+      (print "2nd option for loading PDF files in org-mode in effect")))
 
 (progn
   (defun my-org-mode-hook ()
@@ -508,22 +523,22 @@ With a prefix argument, insert a newline above the current line."
           (add-to-list 'org-file-apps '("\\.pdf\\'" . "okular %s"))
           (add-to-list 'org-file-apps '("\\.xls\\'" . "libreoffice %s"))          
           )
-      ))
+        ))
   (add-hook 'org-mode-hook 'my-org-mode-hook))
 
 (if (= whichSolutionToUseForOrgModePDF 2) ;; http://stackoverflow.com/a/9116029/274677
     (eval-after-load "org"
       '(progn
-         (add-to-list 'org-file-apps '("\\.xls\\'" . "libreoffice %s"))
-         (add-to-list 'org-file-apps '("\\.pptx\\'" . "libreoffice %s"))
-         (if nil ;; this is messing up with my opening of txt files
-             ;; .txt files aren't in the list initially, but in case that changes
-             ;; in a future version of org, use if to avoid errors
-             (if (assoc "\\.txt\\'" org-file-apps)
-                 (setcdr (assoc "\\.txt\\'" org-file-apps) "emacs %s")
-               (add-to-list 'org-file-apps '("\\.txt\\'" . "emacs %s") t)))
-         ;; Change .pdf association directly within the alist
-         (setcdr (assoc "\\.pdf\\'" org-file-apps) "okular %s"))))
+        (add-to-list 'org-file-apps '("\\.xls\\'" . "libreoffice %s"))
+        (add-to-list 'org-file-apps '("\\.pptx\\'" . "libreoffice %s"))
+        (if nil ;; this is messing up with my opening of txt files
+            ;; .txt files aren't in the list initially, but in case that changes
+            ;; in a future version of org, use if to avoid errors
+            (if (assoc "\\.txt\\'" org-file-apps)
+                (setcdr (assoc "\\.txt\\'" org-file-apps) "emacs %s")
+                (add-to-list 'org-file-apps '("\\.txt\\'" . "emacs %s") t)))
+        ;; Change .pdf association directly within the alist
+        (setcdr (assoc "\\.pdf\\'" org-file-apps) "okular %s"))))
 
 
 
@@ -550,15 +565,15 @@ With a prefix argument, insert a newline above the current line."
 (progn ;; ibuffer stuff
   (setq ibuffer-formats                     ;; http://emacs.stackexchange.com/a/623/4003
         '((mark modified read-only " "
-                (name 50 50 :left :elide)
-                " "
-                (size 9 -1 :right)
-                " "
-                (mode 16 16 :left :elide)
-                " " filename-and-process)
+           (name 50 50 :left :elide)
+           " "
+           (size 9 -1 :right)
+           " "
+           (mode 16 16 :left :elide)
+           " " filename-and-process)
           (mark " "
-                (name 16 -1)
-                " " filename))))
+           (name 16 -1)
+           " " filename))))
 
 
 
@@ -586,12 +601,12 @@ With a prefix argument, insert a newline above the current line."
           (message "Yanked region to x-clipboard!")
           (call-interactively 'clipboard-kill-ring-save)
           )
-      (if (region-active-p)
-          (progn
-            (shell-command-on-region (region-beginning) (region-end) "xsel -i -b")
-            (message "Yanked region to clipboard!")
-            (deactivate-mark))
-        (message "No region active; can't yank to clipboard!")))
+        (if (region-active-p)
+            (progn
+              (shell-command-on-region (region-beginning) (region-end) "xsel -i -b")
+              (message "Yanked region to clipboard!")
+              (deactivate-mark))
+            (message "No region active; can't yank to clipboard!")))
     )
 
   (defun paste-from-clipboard ()
@@ -601,25 +616,25 @@ With a prefix argument, insert a newline above the current line."
           (clipboard-yank)
           (message "graphics active")
           )
-      (insert (shell-command-to-string "xsel -o -b"))
-      )
+        (insert (shell-command-to-string "xsel -o -b"))
+        )
     )
   )
 
 
 (if nil                        ;; in the end switched it off because of some issues
     (add-hook 'LaTeX-mode-hook ;; http://emacs.stackexchange.com/q/17954/4003
-          (lambda ()
-            (progn
-              (outline-minor-mode 1)
-              (local-set-key "\C-c\C-c"
-                             outline-mode-prefix-map)
-              (local-set-key (kbd "TAB")
-                             (lambda ()
-                               (interactive)
-                               (outline-toggle-children)))))))
+              (lambda ()
+                (progn
+                  (outline-minor-mode 1)
+                  (local-set-key "\C-c\C-c"
+                                 outline-mode-prefix-map)
+                  (local-set-key (kbd "TAB")
+                                 (lambda ()
+                                   (interactive)
+                                   (outline-toggle-children)))))))
 
-  (setq ad-redefinition-action 'accept) ;; this is to silence: "`tramp-read-passwd' got redefined" according to: https://github.com/syl20bnr/spacemacs/issues/192
+(setq ad-redefinition-action 'accept) ;; this is to silence: "`tramp-read-passwd' got redefined" according to: https://github.com/syl20bnr/spacemacs/issues/192
 
 
 (progn ; https://emacs.stackexchange.com/a/171/4003
@@ -637,17 +652,18 @@ With a prefix argument, insert a newline above the current line."
     (let ((map (make-sparse-keymap)))
                                         ; (define-key map (kbd "M-g g"    ) 'goto-line)      ; this doesn't appear to be necessary
       (define-key map (kbd "C-x C-l"  ) 'join-line)      ; shadows a disabled command (lowercase region)
-;      don't define the below four (4) as they are needed in org-mode for the move item / increase / decrease indentation functionality      
-;      (define-key map (kbd "M-<left>" ) 'windmove-left)  ; move to left windnow
-;      (define-key map (kbd "M-<right>") 'windmove-right) ; move to right window
-;      (define-key map (kbd "M-<up>"   ) 'windmove-up)    ; move to upper window
-;      (define-key map (kbd "M-<down>" ) 'windmove-down)  ; move to downer window
+                                        ;      don't define the below four (4) as they are needed in org-mode for the move item / increase / decrease indentation functionality      
+                                        ;      (define-key map (kbd "M-<left>" ) 'windmove-left)  ; move to left windnow
+                                        ;      (define-key map (kbd "M-<right>") 'windmove-right) ; move to right window
+                                        ;      (define-key map (kbd "M-<up>"   ) 'windmove-up)    ; move to upper window
+                                        ;      (define-key map (kbd "M-<down>" ) 'windmove-down)  ; move to downer window
       (define-key map (kbd "M-j"      ) 'windmove-left)  ; move to left windnow
       (define-key map (kbd "M-;"      ) 'windmove-right) ; move to right window
       (define-key map (kbd "M-k"      ) 'windmove-up)    ; move to upper window
       (define-key map (kbd "M-l"      )'windmove-down)   ; move to downer window
       (define-key map (kbd "C-x C-k"  ) 'compile)
       (define-key map (kbd "C-x C-b"  ) 'ibuffer)        ; used to be: 'buffer-menu
+      (define-key map (kbd "C-x C-j"  ) 'flash-crosshairs) ;;  <a>sse-1733398052</a> C-x C-j overrides dired similar binding but it can also be accessed with with C-x d;
       (define-key map (kbd "M-s M-s"  ) 'replace-string)
       (define-key map (kbd "C-M-k"    ) 'server-shutdown)
       (define-key map (kbd "C-v"      ) 'View-scroll-half-page-forward)  ;; http://www.emacswiki.org/emacs/HalfScrolling
@@ -660,7 +676,7 @@ With a prefix argument, insert a newline above the current line."
 
 
   (define-minor-mode my-keys-minor-mode
-    "A minor mode so that my key settings override annoying major modes."
+      "A minor mode so that my key settings override annoying major modes."
     :init-value t
     :lighter " my-keys")
 
@@ -673,16 +689,16 @@ With a prefix argument, insert a newline above the current line."
   (defun describe-server-name ()
     (interactive)
     (message "%s" (symbol-value 'server-name)))
-    (global-set-key  (kbd "C-h C-s") 'describe-server-name))
+  (global-set-key  (kbd "C-h C-s") 'describe-server-name))
 
 ;; http://emacs.stackexchange.com/q/10414/4003
 (defun toggle-maximize-buffer () "Toggle maximize buffer"
        (interactive)
        (if (= 1 (length (window-list)))
            (set-window-configuration my-saved-window-configuration)
-         (progn
-           (setq my-saved-window-configuration (current-window-configuration))
-           (delete-other-windows))))
+           (progn
+             (setq my-saved-window-configuration (current-window-configuration))
+             (delete-other-windows))))
 
 (define-key my-keys-minor-mode-map (kbd "C-M-u") 'toggle-maximize-buffer)
 
@@ -703,309 +719,309 @@ With a prefix argument, insert a newline above the current line."
 
 
 (progn
-     ;; https://emacs.stackexchange.com/a/18784/4003
-    (use-package vlf
-           :init
-           :ensure t)                
-    (require 'vlf-setup))
+  ;; https://emacs.stackexchange.com/a/18784/4003
+  (use-package vlf
+      :init
+    :ensure t)                
+  (require 'vlf-setup))
 
 ;; eww text-based browser
 (progn
-        (use-package eww)
-        (require 'eww))
+  (use-package eww)
+  (require 'eww))
 
 (progn
- ;; https://emacs.stackexchange.com/a/27037/4003
-(use-package highlight-parentheses
-   :ensure t
-   :pin melpa
-   :config 
-   (setq hl-paren-background-colors '("orangered4"))
-   (setq hl-paren-colors '("black")))
-   ;; https://emacs.stackexchange.com/q/5358/4003
-   (add-hook 'web-mode-hook 'highlight-parentheses-mode)
-)
+  ;; https://emacs.stackexchange.com/a/27037/4003
+  (use-package highlight-parentheses
+      :ensure t
+      :pin melpa
+      :config 
+      (setq hl-paren-background-colors '("orangered4"))
+      (setq hl-paren-colors '("black")))
+  ;; https://emacs.stackexchange.com/q/5358/4003
+  (add-hook 'web-mode-hook 'highlight-parentheses-mode)
+  )
 
 
 (if nil
     ;; way A
-(
- ;; configure TypeScript and TSX - technically different languages for [tree-sitter] and
- ;; associate the respective modes with *.tsx and *.ts extensions
- progn ;; https://medium.com/really-learn-programming/setting-up-tree-sitter-in-emacs-29-x-a38a9d3a9f2b
-       ;; +---- above article saved in: [ .emacs-v29.KB/medium-setting-up-tree-sitter-in-Emacs.pdf ]
-       ;; ... with some editing influenced by this:
-       ;; https://www.reddit.com/r/emacs/comments/15tz3vx/treesit_error_while_installing_grammar/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
- (setq treesit-language-source-alist      
-       '((typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
-         (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")))
- (dolist (lang treesit-language-source-alist)
-  (unless (treesit-language-available-p (car lang))
-    (treesit-install-language-grammar (car lang))))
+    (
+     ;; configure TypeScript and TSX - technically different languages for [tree-sitter] and
+     ;; associate the respective modes with *.tsx and *.ts extensions
+     progn ;; https://medium.com/really-learn-programming/setting-up-tree-sitter-in-emacs-29-x-a38a9d3a9f2b
+     ;; +---- above article saved in: [ .emacs-v29.KB/medium-setting-up-tree-sitter-in-Emacs.pdf ]
+     ;; ... with some editing influenced by this:
+     ;; https://www.reddit.com/r/emacs/comments/15tz3vx/treesit_error_while_installing_grammar/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+     (setq treesit-language-source-alist      
+           '((typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+             (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")))
+     (dolist (lang treesit-language-source-alist)
+       (unless (treesit-language-available-p (car lang))
+         (treesit-install-language-grammar (car lang))))
 
-        (add-to-list 'auto-mode-alist '("\\.tsx\\'"  . tsx-ts-mode))
-        (add-to-list 'auto-mode-alist '("\\.ts\\'"  . typescript-ts-mode))
+     (add-to-list 'auto-mode-alist '("\\.tsx\\'"  . tsx-ts-mode))
+     (add-to-list 'auto-mode-alist '("\\.ts\\'"  . typescript-ts-mode))
 
 
- )
-;; way B (cleaner - with more languages)
-(progn
-  ;; NOTE 1: The (optional) Tailwind LSP Server step found in the linked article has not been added below
-  ;;         as it also required installing and bootstrapping straight
-  ;;         (cf.: https://github.com/radian-software/straight.el?tab=readme-ov-file#bootstrapping-straightel)
-  ;;         and I had a problem with that.
-  ;;
-  ;; NOTE 2: similarly, I did not setup the Emacs LSP Booster
-  ;;
-  ;; NOTE 3: similarly, I briefly installed [combobulate] (which requires cloning its repo somewhere locally and
-  ;;         referring to it from your [.emacs] file, but in the end I decided not to use, being overwhelmed by its
-  ;;         chords and not convinced of its utility.
-  ;;
-  ;; https://www.ovistoica.com/blog/2024-7-05-modern-emacs-typescript-web-tsx-config
-  ;; +---- above article saved in various formats in: [ .emacs-v29.KB/Modern-Emacs-Typescript-Web-React-wt-lsp-mode-treesitter-tailwind-TSX-etc ]
-  ;;
-  ;;    I initially (and for a couple of hours) had a problem with this setup when visiting a *.tsx / *.ts (and perhaps
-  ;;    other languages too, buffer). Emacs was giving me a trace that was very similar (if not identical) to the one
-  ;;    found here:
-  ;;        https://github.com/emacs-lsp/lsp-mode/issues/4059
-  ;;    The answer was given in a reply to this issue (on the same page) which led me here:
-  ;;        https://emacs-lsp.github.io/lsp-mode/page/performance/#use-plists-for-deserialization
-  ;;        +---- above article saved in [ .emacs-v29.KB/LSP-Mode-support-for-Emacs.pdf ]
-  ;;    In my experience, I had to explicitly set LSP_USE_PLISTS to true (cf.: sse-1733245426)
-  ;;    even though this variable (note: different case) seems to already been taken of in the
-  ;;    existing setup (cf.: sse-1733235467). It was also necessary to delete the [lsp-mode] and [lsp-ui] packages
-  ;;    manually (with "package-delete") and then re-install them (no idea why that makes any difference).
-  
-  (use-package treesit
-      :mode (("\\.tsx\\'" . tsx-ts-mode)
-             ("\\.js\\'"  . typescript-ts-mode)
-             ("\\.mjs\\'" . typescript-ts-mode)
-             ("\\.mts\\'" . typescript-ts-mode)
-             ("\\.cjs\\'" . typescript-ts-mode)
-             ("\\.ts\\'"  . typescript-ts-mode)
-             ("\\.jsx\\'" . tsx-ts-mode)
-             ("\\.json\\'" .  json-ts-mode)
-             ("\\.Dockerfile\\'" . dockerfile-ts-mode)
-             ("\\.prisma\\'" . prisma-ts-mode)
-             ;; More modes defined here...
-             )
-      :preface
-      (defun os/setup-install-grammars ()
-        "Install Tree-sitter grammars if they are absent."
-        (interactive)
-        (dolist (grammar
-                 '((css . ("https://github.com/tree-sitter/tree-sitter-css" "v0.20.0"))
-                   (bash "https://github.com/tree-sitter/tree-sitter-bash")
-                   (html . ("https://github.com/tree-sitter/tree-sitter-html" "v0.20.1"))
-                   (javascript . ("https://github.com/tree-sitter/tree-sitter-javascript" "v0.21.2" "src"))
-                   (json . ("https://github.com/tree-sitter/tree-sitter-json" "v0.20.2"))
-                   (python . ("https://github.com/tree-sitter/tree-sitter-python" "v0.20.4"))
-                   (go "https://github.com/tree-sitter/tree-sitter-go" "v0.20.0")
-                   (markdown "https://github.com/ikatyang/tree-sitter-markdown")
-                   (make "https://github.com/alemuller/tree-sitter-make")
-                   (elisp "https://github.com/Wilfred/tree-sitter-elisp")
-                   (cmake "https://github.com/uyha/tree-sitter-cmake")
-                   (c "https://github.com/tree-sitter/tree-sitter-c")
-                   (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
-                   (toml "https://github.com/tree-sitter/tree-sitter-toml")
-                   (tsx . ("https://github.com/tree-sitter/tree-sitter-typescript" "v0.20.3" "tsx/src"))
-                   (typescript . ("https://github.com/tree-sitter/tree-sitter-typescript" "v0.23.2" "typescript/src"))
-                   (yaml . ("https://github.com/ikatyang/tree-sitter-yaml" "v0.5.0"))
-                   (prisma "https://github.com/victorhqc/tree-sitter-prisma")))
-          (add-to-list 'treesit-language-source-alist grammar)
-          ;; Only install `grammar' if we don't already have it
-          ;; installed. However, if you want to *update* a grammar then
-          ;; this obviously prevents that from happening.
-          (unless (treesit-language-available-p (car grammar))
-            (treesit-install-language-grammar (car grammar)))))
-
-      ;; Optional, but recommended. Tree-sitter enabled major modes are
-      ;; distinct from their ordinary counterparts.
-      ;;
-      ;; You can remap major modes with `major-mode-remap-alist'. Note
-      ;; that this does *not* extend to hooks! Make sure you migrate them
-      ;; also
-      (dolist (mapping
-               '((python-mode . python-ts-mode)
-                 (css-mode . css-ts-mode)
-                 (typescript-mode . typescript-ts-mode)
-                 (js-mode . typescript-ts-mode)
-                 (js2-mode . typescript-ts-mode)
-                 (c-mode . c-ts-mode)
-                 (c++-mode . c++-ts-mode)
-                 (c-or-c++-mode . c-or-c++-ts-mode)
-                 (bash-mode . bash-ts-mode)
-                 (css-mode . css-ts-mode)
-                 (json-mode . json-ts-mode)
-                 (js-json-mode . json-ts-mode)
-                 (sh-mode . bash-ts-mode)
-                 (sh-base-mode . bash-ts-mode)))
-        (add-to-list 'major-mode-remap-alist mapping))
-      :config
-      (os/setup-install-grammars)
      )
+    ;; way B (cleaner - with more languages)
+    (progn
+      ;; NOTE 1: The (optional) Tailwind LSP Server step found in the linked article has not been added below
+      ;;         as it also required installing and bootstrapping straight
+      ;;         (cf.: https://github.com/radian-software/straight.el?tab=readme-ov-file#bootstrapping-straightel)
+      ;;         and I had a problem with that.
+      ;;
+      ;; NOTE 2: similarly, I did not setup the Emacs LSP Booster
+      ;;
+      ;; NOTE 3: similarly, I briefly installed [combobulate] (which requires cloning its repo somewhere locally and
+      ;;         referring to it from your [.emacs] file, but in the end I decided not to use, being overwhelmed by its
+      ;;         chords and not convinced of its utility.
+      ;;
+      ;; https://www.ovistoica.com/blog/2024-7-05-modern-emacs-typescript-web-tsx-config
+      ;; +---- above article saved in various formats in: [ .emacs-v29.KB/Modern-Emacs-Typescript-Web-React-wt-lsp-mode-treesitter-tailwind-TSX-etc ]
+      ;;
+      ;;    I initially (and for a couple of hours) had a problem with this setup when visiting a *.tsx / *.ts (and perhaps
+      ;;    other languages too, buffer). Emacs was giving me a trace that was very similar (if not identical) to the one
+      ;;    found here:
+      ;;        https://github.com/emacs-lsp/lsp-mode/issues/4059
+      ;;    The answer was given in a reply to this issue (on the same page) which led me here:
+      ;;        https://emacs-lsp.github.io/lsp-mode/page/performance/#use-plists-for-deserialization
+      ;;        +---- above article saved in [ .emacs-v29.KB/LSP-Mode-support-for-Emacs.pdf ]
+      ;;    In my experience, I had to explicitly set LSP_USE_PLISTS to true (cf.: sse-1733245426)
+      ;;    even though this variable (note: different case) seems to already been taken of in the
+      ;;    existing setup (cf.: sse-1733235467). It was also necessary to delete the [lsp-mode] and [lsp-ui] packages
+      ;;    manually (with "package-delete") and then re-install them (no idea why that makes any difference).
+      
+      (use-package treesit
+          :mode (("\\.tsx\\'" . tsx-ts-mode)
+                 ("\\.js\\'"  . typescript-ts-mode)
+                 ("\\.mjs\\'" . typescript-ts-mode)
+                 ("\\.mts\\'" . typescript-ts-mode)
+                 ("\\.cjs\\'" . typescript-ts-mode)
+                 ("\\.ts\\'"  . typescript-ts-mode)
+                 ("\\.jsx\\'" . tsx-ts-mode)
+                 ("\\.json\\'" .  json-ts-mode)
+                 ("\\.Dockerfile\\'" . dockerfile-ts-mode)
+                 ("\\.prisma\\'" . prisma-ts-mode)
+                 ;; More modes defined here...
+                 )
+          :preface
+          (defun os/setup-install-grammars ()
+            "Install Tree-sitter grammars if they are absent."
+            (interactive)
+            (dolist (grammar
+                      '((css . ("https://github.com/tree-sitter/tree-sitter-css" "v0.20.0"))
+                        (bash "https://github.com/tree-sitter/tree-sitter-bash")
+                        (html . ("https://github.com/tree-sitter/tree-sitter-html" "v0.20.1"))
+                        (javascript . ("https://github.com/tree-sitter/tree-sitter-javascript" "v0.21.2" "src"))
+                        (json . ("https://github.com/tree-sitter/tree-sitter-json" "v0.20.2"))
+                        (python . ("https://github.com/tree-sitter/tree-sitter-python" "v0.20.4"))
+                        (go "https://github.com/tree-sitter/tree-sitter-go" "v0.20.0")
+                        (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+                        (make "https://github.com/alemuller/tree-sitter-make")
+                        (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+                        (cmake "https://github.com/uyha/tree-sitter-cmake")
+                        (c "https://github.com/tree-sitter/tree-sitter-c")
+                        (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
+                        (toml "https://github.com/tree-sitter/tree-sitter-toml")
+                        (tsx . ("https://github.com/tree-sitter/tree-sitter-typescript" "v0.20.3" "tsx/src"))
+                        (typescript . ("https://github.com/tree-sitter/tree-sitter-typescript" "v0.23.2" "typescript/src"))
+                        (yaml . ("https://github.com/ikatyang/tree-sitter-yaml" "v0.5.0"))
+                        (prisma "https://github.com/victorhqc/tree-sitter-prisma")))
+              (add-to-list 'treesit-language-source-alist grammar)
+              ;; Only install `grammar' if we don't already have it
+              ;; installed. However, if you want to *update* a grammar then
+              ;; this obviously prevents that from happening.
+              (unless (treesit-language-available-p (car grammar))
+                (treesit-install-language-grammar (car grammar)))))
 
-    ;;;; Code Completion
-    (use-package corfu
-      :ensure t
-      ;; Optional customizations
-      :custom
-      (corfu-cycle t)                 ; Allows cycling through candidates
-      (corfu-auto t)                  ; Enable auto completion
-      (corfu-auto-prefix 2)           ; Minimum length of prefix for completion
-      (corfu-auto-delay 0)            ; No delay for completion
-      (corfu-popupinfo-delay '(0.5 . 0.2))  ; Automatically update info popup after that numver of seconds
-      (corfu-preview-current 'insert) ; insert previewed candidate
-      (corfu-preselect 'prompt)
-      (corfu-on-exact-match nil)      ; Don't auto expand tempel snippets
-      ;; Optionally use TAB for cycling, default is `corfu-complete'.
-      :bind (:map corfu-map
-                  ("M-SPC"      . corfu-insert-separator)
-                  ("TAB"        . corfu-next)
-                  ([tab]        . corfu-next)
-                  ("S-TAB"      . corfu-previous)
-                  ([backtab]    . corfu-previous)
-                  ("S-<return>" . corfu-insert)
-                  ("RET"        . corfu-insert))
-
-      :init
-      (global-corfu-mode)
-      (corfu-history-mode)
-      (corfu-popupinfo-mode) ; Popup completion info
-      :config
-      (add-hook 'eshell-mode-hook
-                (lambda () (setq-local corfu-quit-at-boundary t
-                                       corfu-quit-no-match t
-                                       corfu-auto nil)
-                  (corfu-mode))
-                nil
-                t))
-
-    ;; Linter Setup
-    ;; Optionally you can setup a linter through which lsp-mode will give you diagnostics for your project & buffer.
-    (use-package flycheck
-      :ensure t
-      :init (global-flycheck-mode)
-      :bind (:map flycheck-mode-map
-                  ("M-n" . flycheck-next-error) ; optional but recommended error navigation
-                  ("M-p" . flycheck-previous-error)))
-
-
-    ;; LSP setup
-(use-package lsp-mode
-      :diminish "LSP"
-      :ensure t
-      :hook ((lsp-mode . lsp-diagnostics-mode)
-             (lsp-mode . lsp-enable-which-key-integration)
-             ((tsx-ts-mode
-               typescript-ts-mode
-               js-ts-mode) . lsp-deferred))
-      :custom
-      (lsp-keymap-prefix "C-c l")           ; Prefix for LSP actions
-      (lsp-completion-provider :none)       ; Using Corfu as the provider
-      (lsp-diagnostics-provider :flycheck)
-      (lsp-session-file (locate-user-emacs-file ".lsp-session"))
-      (lsp-log-io nil)                      ; IMPORTANT! Use only for debugging! Drastically affects performance
-      (lsp-keep-workspace-alive nil)        ; Close LSP server if all project buffers are closed
-      (lsp-idle-delay 0.5)                  ; Debounce timer for `after-change-function'
-      ;; core
-      (lsp-enable-xref t)                   ; Use xref to find references
-      (lsp-auto-configure t)                ; Used to decide between current active servers
-      (lsp-eldoc-enable-hover t)            ; Display signature information in the echo area
-      (lsp-enable-dap-auto-configure t)     ; Debug support
-      (lsp-enable-file-watchers nil)
-      (lsp-enable-folding nil)              ; I disable folding since I use origami
-      (lsp-enable-imenu t)
-      (lsp-enable-indentation nil)          ; I use prettier
-      (lsp-enable-links nil)                ; No need since we have `browse-url'
-      (lsp-enable-on-type-formatting nil)   ; Prettier handles this
-      (lsp-enable-suggest-server-download t) ; Useful prompt to download LSP providers
-      (lsp-enable-symbol-highlighting t)     ; Shows usages of symbol at point in the current buffer
-      (lsp-enable-text-document-color nil)   ; This is Treesitter's job
-
-      (lsp-ui-sideline-show-hover nil)      ; Sideline used only for diagnostics
-      (lsp-ui-sideline-diagnostic-max-lines 20) ; 20 lines since typescript errors can be quite big
-      ;; completion
-      (lsp-completion-enable t)
-      (lsp-completion-enable-additional-text-edit t) ; Ex: auto-insert an import for a completion candidate
-      (lsp-enable-snippet t)                         ; Important to provide full JSX completion
-      (lsp-completion-show-kind t)                   ; Optional
-      ;; headerline
-      (lsp-headerline-breadcrumb-enable t)  ; Optional, I like the breadcrumbs
-      (lsp-headerline-breadcrumb-enable-diagnostics nil) ; Don't make them red, too noisy
-      (lsp-headerline-breadcrumb-enable-symbol-numbers nil)
-      (lsp-headerline-breadcrumb-icons-enable nil)
-      ;; modeline
-      (lsp-modeline-code-actions-enable nil) ; Modeline should be relatively clean
-      (lsp-modeline-diagnostics-enable nil)  ; Already supported through `flycheck'
-      (lsp-modeline-workspace-status-enable nil) ; Modeline displays "LSP" when lsp-mode is enabled
-      (lsp-signature-doc-lines 1)                ; Don't raise the echo area. It's distracting
-      (lsp-ui-doc-use-childframe t)              ; Show docs for symbol at point
-      (lsp-eldoc-render-all nil)            ; This would be very useful if it would respect `lsp-signature-doc-lines', currently it's distracting
-      ;; lens
-      (lsp-lens-enable nil)                 ; Optional, I don't need it
-      ;; semantic
-      (lsp-semantic-tokens-enable nil)      ; Related to highlighting, and we defer to treesitter
-
-      :init
-      (setq lsp-use-plists t)) ;; <a>sse-1733235467</a> cf.: sse-1733245426
-
-    (use-package lsp-completion
-      :no-require
-      :hook ((lsp-mode . lsp-completion-mode)))
-
-    (use-package lsp-ui
-      :ensure t
-      :commands
-      (lsp-ui-doc-show
-       lsp-ui-doc-glance)
-      :bind (:map lsp-mode-map
-                  ("C-c C-d" . 'lsp-ui-doc-glance))
-      :after (lsp-mode evil)
-      :config (setq lsp-ui-doc-enable t
-                    evil-lookup-func #'lsp-ui-doc-glance ; Makes K in evil-mode toggle the doc for symbol at point
-                    lsp-ui-doc-show-with-cursor nil      ; Don't show doc when cursor is over symbol - too distracting
-                    lsp-ui-doc-include-signature t       ; Show signature
-                    lsp-ui-doc-position 'at-point))
-
-
-    ;; Eslint
-    (use-package lsp-eslint
-        :demand t
-        :after lsp-mode)
-
-
-    ;; per https://github.com/emacs-lsp/lsp-mode#performance
-    (setq read-process-output-max (* 10 1024 1024)) ;; 10mb
-    (setq gc-cons-threshold 200000000)
-
-        (progn ;; configure prettier-js
-               ;; this is actually a requirement for using Apheleia
-               ;; I followed instructions from: https://github.com/prettier/prettier-emacs
-               ;;
-               ;; Notes:
-               ;; 1. I had to install the package manually using:
-               ;;    package-install RET prettier-js RET
-               ;; 2. I had to globally install [nmp] package [prettier] on my system
-               ;;    with:
-               ;;        npm install -g prettier
-               ;; 3. If you are using [nvm] (like I do) the above command only installs
-               ;;    it for the [npm] version in the current shell. Repeat for any other
-               ;;    [npm] version you might be using from any shell from which you launch Emacs
-         (require 'prettier-js)
-          (add-hook 'js2-mode-hook 'prettier-js-mode)
-          (add-hook 'web-mode-hook 'prettier-js-mode)
-          (setq prettier-js-args '(
-                               "--trailing-comma" "all"
-                               "--bracket-spacing" "false"
-                               ))
+          ;; Optional, but recommended. Tree-sitter enabled major modes are
+          ;; distinct from their ordinary counterparts.
+          ;;
+          ;; You can remap major modes with `major-mode-remap-alist'. Note
+          ;; that this does *not* extend to hooks! Make sure you migrate them
+          ;; also
+          (dolist (mapping
+                    '((python-mode . python-ts-mode)
+                      (css-mode . css-ts-mode)
+                      (typescript-mode . typescript-ts-mode)
+                      (js-mode . typescript-ts-mode)
+                      (js2-mode . typescript-ts-mode)
+                      (c-mode . c-ts-mode)
+                      (c++-mode . c++-ts-mode)
+                      (c-or-c++-mode . c-or-c++-ts-mode)
+                      (bash-mode . bash-ts-mode)
+                      (css-mode . css-ts-mode)
+                      (json-mode . json-ts-mode)
+                      (js-json-mode . json-ts-mode)
+                      (sh-mode . bash-ts-mode)
+                      (sh-base-mode . bash-ts-mode)))
+            (add-to-list 'major-mode-remap-alist mapping))
+          :config
+          (os/setup-install-grammars)
           )
 
-        ;; Formatting buffers with prettier - Apheleia
+    ;;;; Code Completion
+      (use-package corfu
+          :ensure t
+          ;; Optional customizations
+          :custom
+          (corfu-cycle t)                 ; Allows cycling through candidates
+          (corfu-auto t)                  ; Enable auto completion
+          (corfu-auto-prefix 2)           ; Minimum length of prefix for completion
+          (corfu-auto-delay 0)            ; No delay for completion
+          (corfu-popupinfo-delay '(0.5 . 0.2))  ; Automatically update info popup after that numver of seconds
+          (corfu-preview-current 'insert) ; insert previewed candidate
+          (corfu-preselect 'prompt)
+          (corfu-on-exact-match nil)      ; Don't auto expand tempel snippets
+          ;; Optionally use TAB for cycling, default is `corfu-complete'.
+          :bind (:map corfu-map
+                      ("M-SPC"      . corfu-insert-separator)
+                      ("TAB"        . corfu-next)
+                      ([tab]        . corfu-next)
+                      ("S-TAB"      . corfu-previous)
+                      ([backtab]    . corfu-previous)
+                      ("S-<return>" . corfu-insert)
+                      ("RET"        . corfu-insert))
+
+          :init
+          (global-corfu-mode)
+          (corfu-history-mode)
+          (corfu-popupinfo-mode) ; Popup completion info
+          :config
+          (add-hook 'eshell-mode-hook
+                    (lambda () (setq-local corfu-quit-at-boundary t
+                                           corfu-quit-no-match t
+                                           corfu-auto nil)
+                      (corfu-mode))
+                    nil
+                    t))
+
+      ;; Linter Setup
+      ;; Optionally you can setup a linter through which lsp-mode will give you diagnostics for your project & buffer.
+      (use-package flycheck
+          :ensure t
+          :init (global-flycheck-mode)
+          :bind (:map flycheck-mode-map
+                      ("M-n" . flycheck-next-error) ; optional but recommended error navigation
+                      ("M-p" . flycheck-previous-error)))
+
+
+      ;; LSP setup
+      (use-package lsp-mode
+          :diminish "LSP"
+          :ensure t
+          :hook ((lsp-mode . lsp-diagnostics-mode)
+                 (lsp-mode . lsp-enable-which-key-integration)
+                 ((tsx-ts-mode
+                   typescript-ts-mode
+                   js-ts-mode) . lsp-deferred))
+          :custom
+          (lsp-keymap-prefix "C-c l")           ; Prefix for LSP actions
+          (lsp-completion-provider :none)       ; Using Corfu as the provider
+          (lsp-diagnostics-provider :flycheck)
+          (lsp-session-file (locate-user-emacs-file ".lsp-session"))
+          (lsp-log-io nil)                      ; IMPORTANT! Use only for debugging! Drastically affects performance
+          (lsp-keep-workspace-alive nil)        ; Close LSP server if all project buffers are closed
+          (lsp-idle-delay 0.5)                  ; Debounce timer for `after-change-function'
+          ;; core
+          (lsp-enable-xref t)                   ; Use xref to find references
+          (lsp-auto-configure t)                ; Used to decide between current active servers
+          (lsp-eldoc-enable-hover t)            ; Display signature information in the echo area
+          (lsp-enable-dap-auto-configure t)     ; Debug support
+          (lsp-enable-file-watchers nil)
+          (lsp-enable-folding nil)              ; I disable folding since I use origami
+          (lsp-enable-imenu t)
+          (lsp-enable-indentation nil)          ; I use prettier <a>sse-1733399297</a>
+          (lsp-enable-links nil)                ; No need since we have `browse-url'
+          (lsp-enable-on-type-formatting nil)   ; Prettier handles this
+          (lsp-enable-suggest-server-download t) ; Useful prompt to download LSP providers
+          (lsp-enable-symbol-highlighting t)     ; Shows usages of symbol at point in the current buffer
+          (lsp-enable-text-document-color nil)   ; This is Treesitter's job
+
+          (lsp-ui-sideline-show-hover nil)      ; Sideline used only for diagnostics
+          (lsp-ui-sideline-diagnostic-max-lines 20) ; 20 lines since typescript errors can be quite big
+          ;; completion
+          (lsp-completion-enable t)
+          (lsp-completion-enable-additional-text-edit t) ; Ex: auto-insert an import for a completion candidate
+          (lsp-enable-snippet t)                         ; Important to provide full JSX completion
+          (lsp-completion-show-kind t)                   ; Optional
+          ;; headerline
+          (lsp-headerline-breadcrumb-enable t)  ; Optional, I like the breadcrumbs
+          (lsp-headerline-breadcrumb-enable-diagnostics nil) ; Don't make them red, too noisy
+          (lsp-headerline-breadcrumb-enable-symbol-numbers nil)
+          (lsp-headerline-breadcrumb-icons-enable nil)
+          ;; modeline
+          (lsp-modeline-code-actions-enable nil) ; Modeline should be relatively clean
+          (lsp-modeline-diagnostics-enable nil)  ; Already supported through `flycheck'
+          (lsp-modeline-workspace-status-enable nil) ; Modeline displays "LSP" when lsp-mode is enabled
+          (lsp-signature-doc-lines 1)                ; Don't raise the echo area. It's distracting
+          (lsp-ui-doc-use-childframe t)              ; Show docs for symbol at point
+          (lsp-eldoc-render-all nil)            ; This would be very useful if it would respect `lsp-signature-doc-lines', currently it's distracting
+          ;; lens
+          (lsp-lens-enable nil)                 ; Optional, I don't need it
+          ;; semantic
+          (lsp-semantic-tokens-enable nil)      ; Related to highlighting, and we defer to treesitter
+
+          :init
+          (setq lsp-use-plists t)) ;; <a>sse-1733235467</a> cf.: sse-1733245426
+
+      (use-package lsp-completion
+          :no-require
+        :hook ((lsp-mode . lsp-completion-mode)))
+
+      (use-package lsp-ui
+          :ensure t
+          :commands
+          (lsp-ui-doc-show
+           lsp-ui-doc-glance)
+          :bind (:map lsp-mode-map
+                      ("C-c C-d" . 'lsp-ui-doc-glance))
+          :after (lsp-mode evil)
+          :config (setq lsp-ui-doc-enable t
+                        evil-lookup-func #'lsp-ui-doc-glance ; Makes K in evil-mode toggle the doc for symbol at point
+                        lsp-ui-doc-show-with-cursor nil      ; Don't show doc when cursor is over symbol - too distracting
+                        lsp-ui-doc-include-signature t       ; Show signature
+                        lsp-ui-doc-position 'at-point))
+
+
+      ;; Eslint
+      (use-package lsp-eslint
+          :demand t
+          :after lsp-mode)
+
+
+      ;; per https://github.com/emacs-lsp/lsp-mode#performance
+      (setq read-process-output-max (* 10 1024 1024)) ;; 10mb
+      (setq gc-cons-threshold 200000000)
+
+      (progn ;; configure prettier-js
+        ;; this is actually a requirement for using Apheleia
+        ;; I followed instructions from: https://github.com/prettier/prettier-emacs
+        ;;
+        ;; Notes:
+        ;; 1. I had to install the package manually using:
+        ;;    package-install RET prettier-js RET
+        ;; 2. I had to globally install [nmp] package [prettier] on my system
+        ;;    with:
+        ;;        npm install -g prettier
+        ;; 3. If you are using [nvm] (like I do) the above command only installs
+        ;;    it for the [npm] version in the current shell. Repeat for any other
+        ;;    [npm] version you might be using from any shell from which you launch Emacs
+        (require 'prettier-js)
+        (add-hook 'js2-mode-hook 'prettier-js-mode)
+        (add-hook 'web-mode-hook 'prettier-js-mode)
+        (setq prettier-js-args '(
+                                 "--trailing-comma" "all"
+                                 "--bracket-spacing" "false"
+                                 ))
+        )
+
+      ;; Formatting buffers with prettier - Apheleia
         ;;; APHELEIA
-        ;; auto-format different source code files extremely intelligently
-        ;; https://github.com/radian-software/apheleia
-        (use-package apheleia
+      ;; auto-format different source code files extremely intelligently
+      ;; https://github.com/radian-software/apheleia
+      (use-package apheleia
           :ensure apheleia
           :diminish ""
           :defines
@@ -1017,5 +1033,16 @@ With a prefix argument, insert a newline above the current line."
           (setf (alist-get 'prettier-json apheleia-formatters)
                 '("prettier" "--stdin-filepath" filepath))
           (apheleia-global-mode +1))
+      )
     )
-)
+
+;; 2024-12-05 Using this method for "manually added" packages (for lack of more proper terminology)
+;;            had to do that to install package [crosshairs] which ain't available in the Emacs repositories
+;;            provenance: see comments section in: https://stackoverflow.com/a/45595108/274677
+(add-to-list 'load-path (expand-file-name "~/.emacs.d.custom"))
+
+;; 2024-12-05 <a>sse-1733399235</a> "install" crosshairs library - for its key bindings cf.:sse-1733398052
+(progn ;;
+  (require 'crosshairs)
+  (toggle-crosshairs-when-idle t)
+  )
