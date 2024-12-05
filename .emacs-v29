@@ -1044,5 +1044,7 @@ With a prefix argument, insert a newline above the current line."
 ;; 2024-12-05 <a>sse-1733399235</a> "install" crosshairs library - for its key bindings cf.:sse-1733398052
 (progn ;;
   (require 'crosshairs)
-  (toggle-crosshairs-when-idle t)
+  (if nil
+      (toggle-crosshairs-when-idle t)
+      )
   )
