@@ -517,6 +517,7 @@ With a prefix argument, insert a newline above the current line."
   (defun my-org-mode-hook ()
     "My hook for the org-mode"
     (setq org-hide-emphasis-markers nil)
+    (setq org-startup-folded t) ;; apparently is not working as it should (lots of google results)
     (if (= whichSolutionToUseForOrgModePDF 1) ;; http://stackoverflow.com/a/8836108
         (progn
           (delete '("\\.pdf\\'" . default) org-file-apps)
