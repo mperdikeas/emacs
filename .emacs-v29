@@ -976,8 +976,15 @@ With a prefix argument, insert a newline above the current line."
           :commands
           (lsp-ui-doc-show
            lsp-ui-doc-glance)
-          :bind (:map lsp-mode-map
-                      ("C-c C-d" . 'lsp-ui-doc-glance))
+
+          ;; #  I found that the below two lines of code have no effect; instead I can always
+          ;; #  invoke:
+          ;; #      * [ lsp-ui-doc-glance           ] with "C-c l h g"
+          ;; #      * [ lsp-describe-thing-at-point ]  with "C-c l h h"
+          ;; #
+          ;; # :bind (:map lsp-mode-map
+          ;; #           ("C-c C-d" . 'lsp-ui-doc-glance))
+
           :after (lsp-mode evil)
           :config (setq lsp-ui-doc-enable t
                         evil-lookup-func #'lsp-ui-doc-glance ; Makes K in evil-mode toggle the doc for symbol at point
