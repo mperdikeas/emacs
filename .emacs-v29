@@ -981,7 +981,8 @@ With a prefix argument, insert a newline above the current line."
           :after (lsp-mode evil)
           :config (setq lsp-ui-doc-enable t
                         evil-lookup-func #'lsp-ui-doc-glance ; Makes K in evil-mode toggle the doc for symbol at point
-                        lsp-ui-doc-show-with-cursor nil      ; Don't show doc when cursor is over symbol - too distracting
+                        lsp-ui-doc-show-with-cursor t
+                        lsp-ui-doc-delay 0.5                 ; Delay before showing the popup
                         lsp-ui-doc-include-signature t       ; Show signature
                         lsp-ui-doc-position 'at-point))
 
@@ -1018,22 +1019,24 @@ With a prefix argument, insert a newline above the current line."
                                  ))
         )
 
-      ;; Formatting buffers with prettier - Apheleia
+      (if nil ;; decided to disable it - found it to be too intrusive
+          ;; Formatting buffers with prettier - Apheleia
         ;;; APHELEIA
-      ;; auto-format different source code files extremely intelligently
-      ;; https://github.com/radian-software/apheleia
-      (use-package apheleia
-          :ensure apheleia
-          :diminish ""
-          :defines
-          apheleia-formatters
-          apheleia-mode-alist
-          :functions
-          apheleia-global-mode
-          :config
-          (setf (alist-get 'prettier-json apheleia-formatters)
-                '("prettier" "--stdin-filepath" filepath))
-          (apheleia-global-mode +1))
+          ;; auto-format different source code files extremely intelligently
+          ;; https://github.com/radian-software/apheleia
+          (use-package apheleia
+              :ensure apheleia
+              :diminish ""
+              :defines
+              apheleia-formatters
+              apheleia-mode-alist
+              :functions
+              apheleia-global-mode
+              :config
+              (setf (alist-get 'prettier-json apheleia-formatters)
+                    '("prettier" "--stdin-filepath" filepath))
+              (apheleia-global-mode +1))
+          )
       )
     )
 
