@@ -305,7 +305,7 @@
  '(inhibit-startup-screen t)
  '(org-agenda-files nil t)
  '(package-selected-packages
-   '(link-hint apheleia lsp-ui lsp-mode flycheck corfu gnu-elpa-keyring-update selectric-mode highlight-parentheses vlf vlf-setup ess zenburn-theme web-mode use-package scss-mode sass-mode openwith json-mode free-keys flow-minor-mode cider auto-complete anzu ace-window ace-jump-mode ac-js2)))
+   '(dockerfile-mode link-hint apheleia lsp-ui lsp-mode flycheck corfu gnu-elpa-keyring-update selectric-mode highlight-parentheses vlf vlf-setup ess zenburn-theme web-mode use-package scss-mode sass-mode openwith json-mode free-keys flow-minor-mode cider auto-complete anzu ace-window ace-jump-mode ac-js2)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
