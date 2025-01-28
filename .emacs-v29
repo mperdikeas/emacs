@@ -1018,9 +1018,17 @@ With a prefix argument, insert a newline above the current line."
         ;; 3. If you are using [nvm] (like I do) the above command only installs
         ;;    it for the [npm] version in the current shell. Repeat for any other
         ;;    [npm] version you might be using from any shell from which you launch Emacs
+
+
+
+        ;; update 2025-01-28 https://github.com/prettier/prettier-emacs/issues/29#issuecomment-455795298
+        (defun maybe-use-prettier ()
+          "Enable prettier-js-mode if an rc file is located."
+          (if (locate-dominating-file default-directory ".prettierrc")
+              (prettier-js-mode +1)))
         (require 'prettier-js)
         (add-hook 'js2-mode-hook 'prettier-js-mode)
-        (add-hook 'web-mode-hook 'prettier-js-mode)
+        (add-hook 'web-mode-hook 'maybe-use-prettier)
         (setq prettier-js-args '(
                                  "--trailing-comma" "all"
                                  "--bracket-spacing" "false"
