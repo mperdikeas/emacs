@@ -311,10 +311,10 @@
  '(package-selected-packages
    '(ac-js2 ace-jump-mode ace-window anzu apheleia auto-complete cider
             corfu ess flow-minor-mode flycheck free-keys
-            gnu-elpa-keyring-update highlight-parentheses json-mode
-            link-hint lsp-mode lsp-ui openwith rust-mode sass-mode
-            scss-mode selectric-mode use-package vlf vlf-setup
-            web-mode yaml-mode yaml-pro zenburn-theme)))
+            gnu-elpa-keyring-update haskell-mode highlight-parentheses
+            json-mode link-hint lsp-mode lsp-ui openwith rust-mode
+            sass-mode scss-mode selectric-mode use-package vlf
+            vlf-setup web-mode yaml-mode yaml-pro zenburn-theme)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
