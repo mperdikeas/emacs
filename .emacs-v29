@@ -1076,3 +1076,11 @@ With a prefix argument, insert a newline above the current line."
 (use-package json-navigator
       :init
     :ensure t)                
+
+
+;; 2025-11-27 cf.: https://chatgpt.com/s/t_692852d61ba881919e4b9af5b76b5d74
+(defun insert-epoch-seconds ()
+  "Insert the number of seconds since the Unix Epoch at point."
+  (interactive)
+  (insert (format-time-string "%s")))
+(global-set-key (kbd "C-c i s s s") #'insert-epoch-seconds)
