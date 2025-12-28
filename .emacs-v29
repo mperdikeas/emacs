@@ -1090,3 +1090,8 @@ With a prefix argument, insert a newline above the current line."
   (interactive)
   (insert (format-time-string "%s")))
 (global-set-key (kbd "C-c i s s e") #'insert-epoch-seconds)
+
+
+;; 2025-12-28
+;; https://chatgpt.com/c/6951423e-8490-832b-aaf1-215343e466a1
+(use-package magit :ensure t)
