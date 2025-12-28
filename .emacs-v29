@@ -309,6 +309,14 @@
  '(flycheck-checker-error-threshold 4000)
  '(inhibit-startup-screen t)
  '(org-agenda-files nil t)
+
+;;
+;; TODO
+;; At some point I have to follow the advice below and set package-selected-packages
+;; to nil and forbid Emacs from writing to .emacs at all.
+;;
+;; cf.: https://chatgpt.com/s/t_69515f550ddc81918d4dde29f305274d
+;;
  '(package-selected-packages
    '(ac-js2 ace-jump-mode ace-window anzu apheleia cider corfu ess
             flycheck free-keys haskell-mode helm highlight-parentheses
